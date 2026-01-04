@@ -13,15 +13,16 @@ export const updateFreelancer = async (req, res) => {
   try {
     const { freelancerId, updateSkills, description } = req.body;
 
-    const freelancer = await Freelancer.findById(freelancerId);
+    const freelancer = await Freelancer.findOne({ userId: freelancerId });
     if (!freelancer) {
       return res.status(404).json({ message: "Freelancer not found" });
     }
 
     if (updateSkills) {
-      freelancer.skills = updateSkills.split(",");
+      freelancer.skills = updateSkills; // already array
     }
-    if (description) {
+
+    if (description !== undefined) {
       freelancer.description = description;
     }
 

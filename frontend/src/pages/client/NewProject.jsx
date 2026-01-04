@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../../services/api'
+import {toast} from 'react-toastify'
 
 const NewProject = () => {
   const navigate = useNavigate()
@@ -14,7 +15,7 @@ const NewProject = () => {
     e.preventDefault()
 
     if (!title || !description || !budget || !skills) {
-      alert('Please fill all fields')
+      toast.warning('Please fill all fields')
       return
     }
 
@@ -33,11 +34,11 @@ const payload = {
 
     try {
       await api.post('/project/create', payload)
-      alert('✅ Project created successfully')
+      toast.success('✅ Project created successfully')
       navigate('/client')
     } catch (error) {
       console.error(error)
-      alert('❌ Project creation failed')
+      toast.error('❌ Project creation failed')
     }
   }
 

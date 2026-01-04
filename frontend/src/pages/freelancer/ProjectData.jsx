@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import api from '../../services/api'
 import { GeneralContext } from '../../context/GeneralContext'
+import { toast } from 'react-toastify'
 
 const ProjectData = () => {
   const { id } = useParams() // projectId
@@ -83,14 +84,14 @@ const ProjectData = () => {
         estimatedTime
       })
 
-      alert('Bid placed successfully')
+      toast.success('Bid placed successfully')
       setProposal('')
       setBidAmount('')
       setEstimatedTime('')
       fetchProject()
     } catch (err) {
       console.error(err)
-      alert('Bidding failed')
+      toast.error('Bidding failed')
     }
   }
 
@@ -103,14 +104,14 @@ const ProjectData = () => {
         submissionDescription
       })
 
-      alert('Submission successful')
+      toast.success('Submission successful')
       setProjectLink('')
       setManualLink('')
       setSubmissionDescription('')
       fetchProject()
     } catch (err) {
       console.error(err)
-      alert('Submission failed')
+      toast.error('Submission failed')
     }
   }
 

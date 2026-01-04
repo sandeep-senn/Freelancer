@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import api from '../../services/api'
+import {toast} from 'react-toastify'
 
 const ProjectApplications = () => {
   const [applications, setApplications] = useState([])
@@ -50,20 +51,20 @@ const ProjectApplications = () => {
   const handleApprove = async (id) => {
     try {
       await api.post(`/application/approve/${id}`)
-      alert('Application approved')
+      toast.success('Application approved')
       fetchApplications()
     } catch {
-      alert('Operation failed')
+      toast.error('Operation failed')
     }
   }
 
   const handleReject = async (id) => {
     try {
       await api.post(`/application/reject/${id}`)
-      alert('Application rejected')
+      toast.success('Application rejected')
       fetchApplications()
     } catch {
-      alert('Operation failed')
+      toast.error('Operation failed')
     }
   }
 

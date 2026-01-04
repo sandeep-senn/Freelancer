@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import api from '../../services/api'
 import { GeneralContext } from '../../context/GeneralContext'
+import {toast} from 'react-toastify'
 
 const ProjectWorking = () => {
   const { id } = useParams()
@@ -59,20 +60,20 @@ useEffect(() => {
   const handleApproveSubmission = async () => {
     try {
       await api.post(`/application/approve/${id}`)
-      alert('Submission approved')
+      toast.success('Submission approved')
       fetchProject()
     } catch {
-      alert('Operation failed')
+      toast.error('Operation failed')
     }
   }
 
   const handleRejectSubmission = async () => {
     try {
       await api.post(`/application/reject/${id}`)
-      alert('Submission rejected')
+      toast.success('Submission rejected')
       fetchProject()
     } catch {
-      alert('Operation failed')
+      toast.error('Operation failed')
     }
   }
 

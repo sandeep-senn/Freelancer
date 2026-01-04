@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../../services/api'
+import {toast} from 'react-toastify'
 
 const Freelancer = () => {
   const navigate = useNavigate()
@@ -53,12 +54,12 @@ useEffect(() => {
         updateSkills: editSkills.split(',').map(s => s.trim()),
         description: editDescription
       })
-      alert('Profile updated')
+      toast.success('Profile updated')
       setEditOpen(false)
       loadFreelancer()
     } catch (err) {
       console.error(err)
-      alert('Update failed')
+      toast.error('Update failed')
     }
   }
 

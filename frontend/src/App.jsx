@@ -20,11 +20,22 @@ import Admin from './pages/admin/Admin'
 import AdminProjects from './pages/admin/AdminProjects'
 import AllApplications from './pages/admin/AllApplications'
 import AllUsers from './pages/admin/AllUsers'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
   return (
     <div className="min-h-screen bg-gray-50">
-      
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="light"
+      />
+
       <Navbar />
 
       <Routes>
@@ -47,7 +58,6 @@ function App() {
         <Route path="/admin-applications" element={<AllApplications />} />
         <Route path="/all-users" element={<AllUsers />} />
       </Routes>
-
     </div>
   )
 }
