@@ -1,11 +1,13 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { GeneralContext } from '../context/GeneralContext'
+import { Menu, X } from 'lucide-react'
 
 const Navbar = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const { logout } = useContext(GeneralContext)
+  const [open, setOpen] = useState(false)
 
   const usertype = localStorage.getItem('usertype')
   if (!usertype) return null
@@ -31,34 +33,46 @@ const Navbar = () => {
   }
 
   return (
-    <div className="w-full flex justify-center mt-4">
-      <nav
-        className="flex items-center justify-between
-                   bg-white shadow-lg
-                   px-6 py-3
-                   rounded-full
-                   max-w-6xl w-full"
-      >
+    <div className="w-full flex justify-center mt-3 px-2">
+      <nav className="bg-white shadow-lg rounded-2xl w-full max-w-6xl px-4 py-3">
 
-        {/* BRAND */}
-        <h3
-          onClick={() => navigate(`/${usertype}`)}
-          className="text-lg font-semibold text-blue-600 cursor-pointer whitespace-nowrap"
-        >
-          SB Works {usertype === 'admin' && '(Admin)'}
-        </h3>
+        {/* TOP BAR */}
+        <div className="flex items-center justify-between">
+          <h3
+            onClick={() => navigate(`/${usertype}`)}
+            className="text-lg font-semibold text-blue-600 cursor-pointer"
+          >
+            SB Works {usertype === 'admin' && '(Admin)'}
+          </h3>
+
+          {/* MOBILE TOGGLE */}
+          <button
+            className="md:hidden text-gray-600"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
 
         {/* LINKS */}
-        <div className="flex items-center gap-2">
+        <div
+          className={`
+            flex flex-col md:flex-row md:items-center gap-2 mt-4 md:mt-0
+            ${open ? 'flex' : 'hidden'} md:flex
+          `}
+        >
           {navLinks[usertype].map((item) => {
             const isActive = location.pathname === item.path
 
             return (
               <button
                 key={item.label}
-                onClick={() => navigate(item.path)}
+                onClick={() => {
+                  navigate(item.path)
+                  setOpen(false)
+                }}
                 className={`
-                  px-4 py-2 rounded-full text-sm font-medium transition
+                  px-4 py-2 rounded-full text-sm font-medium transition text-left
                   ${isActive
                     ? 'bg-blue-600 text-white shadow'
                     : 'text-gray-600 hover:bg-blue-50 hover:text-blue-600'}
@@ -69,10 +83,9 @@ const Navbar = () => {
             )
           })}
 
-          {/* LOGOUT */}
           <button
             onClick={logout}
-            className="ml-2 px-4 py-2 rounded-full text-sm font-medium
+            className="px-4 py-2 rounded-full text-sm font-medium
                        text-red-600 hover:bg-red-50 transition"
           >
             Logout

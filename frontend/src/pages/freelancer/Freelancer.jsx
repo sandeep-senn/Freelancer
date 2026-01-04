@@ -6,7 +6,7 @@ const Freelancer = () => {
   const navigate = useNavigate()
 
   const [freelancer, setFreelancer] = useState(null)
-  const [applicationsCount, setApplicationsCount] = useState(0)
+  const [applicationsCount] = useState(0)
 
   const [editOpen, setEditOpen] = useState(false)
   const [editSkills, setEditSkills] = useState('')
