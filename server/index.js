@@ -16,8 +16,18 @@ const app = express();
 app.use(express.json());
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+const allowedOrigins = [
+  "https://freelancer-lilac-eight.vercel.app"
+];
+
 app.use(cors({
-  origin: 'http://localhost:5173' || 'https://freelancer-lilac-eight.vercel.app/',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true
 }));
 
