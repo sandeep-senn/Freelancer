@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'http://localhost:5173' || 'https://freelancer-lilac-eight.vercel.app/',
   credentials: true
 }));
 
