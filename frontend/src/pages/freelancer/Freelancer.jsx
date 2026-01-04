@@ -1,87 +1,187 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import api from '../../services/api'
 
 const Freelancer = () => {
+  const navigate = useNavigate()
+
+  const [freelancer, setFreelancer] = useState(null)
+  const [applicationsCount, setApplicationsCount] = useState(0)
+
+  const [editOpen, setEditOpen] = useState(false)
+  const [editSkills, setEditSkills] = useState('')
+  const [editDescription, setEditDescription] = useState('')
+
   const userId = localStorage.getItem('userId')
 
-  const [skills, setSkills] = useState([])
-  const [description, setDescription] = useState('')
-  const [loadingAI, setLoadingAI] = useState(false)
+  // ---------------- LOAD DATA ----------------
+const loadFreelancer = async () => {
+  try {
+    const { data } = await api.get(`/freelancer/${userId}`)
+    setFreelancer(data)
+    setEditSkills(data.skills.join(', '))
+    setEditDescription(data.description || '')
+  } catch (err) {
+    console.error(err)
+  }
+}
 
-  // load freelancer data
-  useEffect(() => {
-    const loadFreelancer = async () => {
-      const { data } = await api.get(`/freelancer/${userId}`)
-      setSkills(data.skills || [])
-      setDescription(data.description || '')
-    }
-    loadFreelancer()
-  }, [userId])
+const loadApplications = async () => {
+  try {
+    // logic here
+  } catch (err) {
+    console.error(err)
+  }
+}
 
-  // 🔥 AI BIO GENERATOR
-  const generateBio = async () => {
+useEffect(() => {
+  if (!userId) return
+
+  const fetchData = async () => {
+    await loadFreelancer()
+    await loadApplications()
+  }
+
+  fetchData()
+}, [userId])
+
+  // ---------------- UPDATE PROFILE ----------------
+  const updateProfile = async () => {
     try {
-      setLoadingAI(true)
-
-      const res = await api.post('/ai/freelancer-description', {
-        role: 'Freelancer',
-        skills: skills.join(','),
-        experience: 'Fresher'
+      await api.post('/freelancer/update', {
+        freelancerId: userId,
+        updateSkills: editSkills.split(',').map(s => s.trim()),
+        description: editDescription
       })
-
-      setDescription(res.data.description)
+      alert('Profile updated')
+      setEditOpen(false)
+      loadFreelancer()
     } catch (err) {
-      alert('AI generation failed', err)
-    } finally {
-      setLoadingAI(false)
+      console.error(err)
+      alert('Update failed')
     }
   }
 
-  // save profile
-  const saveProfile = async () => {
-    await api.post('/freelancer/update', {
-      freelancerId: userId,
-      updateSkills: skills.join(','),
-      description
-    })
-    alert('Profile updated')
-  }
+  if (!freelancer) return null
 
   return (
-    <div className="max-w-3xl mx-auto p-6 space-y-6">
+    <div className="p-6 max-w-6xl mx-auto space-y-8">
 
-      <h2 className="text-2xl font-semibold">Freelancer Profile</h2>
+      {/* DASHBOARD CARDS */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <DashboardCard
+          title="Current Projects"
+          value={freelancer.currentProjects.length}
+          onClick={() => navigate('/my-projects')}
+        />
+        <DashboardCard
+          title="Completed Projects"
+          value={freelancer.completedProjects.length}
+          onClick={() => navigate('/my-projects')}
+        />
+        <DashboardCard
+          title="Applications"
+          value={applicationsCount}
+          onClick={() => navigate('/myApplications')}
+        />
+        <DashboardCard
+          title="Funds"
+          value={`₹ ${freelancer.funds}`}
+        />
+      </div>
 
-      <input
-        value={skills.join(',')}
-        onChange={e => setSkills(e.target.value.split(','))}
-        placeholder="Skills (comma separated)"
-        className="w-full border p-2 rounded"
-      />
+      {/* PROFILE */}
+      <div className="bg-white p-6 rounded-xl shadow">
+        {!editOpen ? (
+          <>
+            <h3 className="text-xl font-semibold mb-3">My Profile</h3>
 
-      <textarea
-        value={description}
-        onChange={e => setDescription(e.target.value)}
-        placeholder="Describe yourself..."
-        className="w-full border p-3 rounded min-h-[120px]"
-      />
+            <div className="mb-4">
+              <h4 className="font-medium">Skills</h4>
+              <div className="flex gap-2 flex-wrap mt-1">
+                {freelancer.skills.length > 0 ? (
+                  freelancer.skills.map(skill => (
+                    <span
+                      key={skill}
+                      className="bg-gray-100 px-3 py-1 rounded text-sm"
+                    >
+                      {skill}
+                    </span>
+                  ))
+                ) : (
+                  <p className="text-gray-500">No skills added</p>
+                )}
+              </div>
+            </div>
 
-      <button
-        onClick={generateBio}
-        disabled={loadingAI}
-        className="text-blue-600 text-sm underline"
-      >
-        ✨ {loadingAI ? 'Generating...' : 'Generate with AI'}
-      </button>
+            <div className="mb-4">
+              <h4 className="font-medium">Description</h4>
+              <p className="text-gray-600">
+                {freelancer.description || 'No description added'}
+              </p>
+            </div>
 
-      <button
-        onClick={saveProfile}
-        className="bg-green-600 text-white px-4 py-2 rounded"
-      >
-        Save Profile
-      </button>
+            <button
+              onClick={() => setEditOpen(true)}
+              className="border border-green-600 text-green-600 px-4 py-1 rounded hover:bg-green-50"
+            >
+              Update Profile
+            </button>
+          </>
+        ) : (
+          <>
+            <h3 className="text-xl font-semibold mb-3">Update Profile</h3>
+
+            <div className="mb-3">
+              <label className="block text-sm font-medium">Skills</label>
+              <input
+                value={editSkills}
+                onChange={(e) => setEditSkills(e.target.value)}
+                className="w-full border px-3 py-2 rounded"
+                placeholder="React, Node, MongoDB"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label className="block text-sm font-medium">Description</label>
+              <textarea
+                value={editDescription}
+                onChange={(e) => setEditDescription(e.target.value)}
+                className="w-full border px-3 py-2 rounded"
+                rows="4"
+              />
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={updateProfile}
+                className="bg-green-600 text-white px-4 py-1 rounded"
+              >
+                Save
+              </button>
+              <button
+                onClick={() => setEditOpen(false)}
+                className="border px-4 py-1 rounded"
+              >
+                Cancel
+              </button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   )
 }
+
+// ---------------- SMALL COMPONENT ----------------
+const DashboardCard = ({ title, value, onClick }) => (
+  <div
+    onClick={onClick}
+    className="bg-white p-5 rounded-xl shadow cursor-pointer hover:shadow-lg transition"
+  >
+    <h4 className="text-gray-600">{title}</h4>
+    <p className="text-2xl font-bold mt-2">{value}</p>
+  </div>
+)
 
 export default Freelancer
