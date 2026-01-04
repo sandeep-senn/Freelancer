@@ -33,17 +33,48 @@ const Navbar = () => {
   }
 
   return (
-    <div className="w-full flex justify-center mt-3 px-2">
-      <nav className="bg-white shadow-lg rounded-2xl w-full max-w-6xl px-4 py-3">
+    <div className="w-full flex justify-center mt-4 px-4">
+      <nav className="bg-white shadow-md rounded-full w-full max-w-6xl px-6 py-3">
 
-        {/* TOP BAR */}
+        {/* DESKTOP BAR */}
         <div className="flex items-center justify-between">
+
+          {/* BRAND */}
           <h3
             onClick={() => navigate(`/${usertype}`)}
             className="text-lg font-semibold text-blue-600 cursor-pointer"
           >
             SB Works {usertype === 'admin' && '(Admin)'}
           </h3>
+
+          {/* DESKTOP LINKS */}
+          <div className="hidden md:flex items-center gap-2">
+            {navLinks[usertype].map((item) => {
+              const isActive = location.pathname === item.path
+              return (
+                <button
+                  key={item.label}
+                  onClick={() => navigate(item.path)}
+                  className={`
+                    px-4 py-2 rounded-full text-sm font-medium transition
+                    ${isActive
+                      ? 'bg-blue-600 text-white shadow'
+                      : 'text-gray-600 hover:bg-blue-50 hover:text-blue-600'}
+                  `}
+                >
+                  {item.label}
+                </button>
+              )
+            })}
+
+            <button
+              onClick={logout}
+              className="ml-2 px-4 py-2 rounded-full text-sm font-medium
+                         text-red-600 hover:bg-red-50 transition"
+            >
+              Logout
+            </button>
+          </div>
 
           {/* MOBILE TOGGLE */}
           <button
@@ -52,45 +83,42 @@ const Navbar = () => {
           >
             {open ? <X size={22} /> : <Menu size={22} />}
           </button>
+
         </div>
 
-        {/* LINKS */}
-        <div
-          className={`
-            flex flex-col md:flex-row md:items-center gap-2 mt-4 md:mt-0
-            ${open ? 'flex' : 'hidden'} md:flex
-          `}
-        >
-          {navLinks[usertype].map((item) => {
-            const isActive = location.pathname === item.path
+        {/* MOBILE MENU */}
+        {open && (
+          <div className="md:hidden mt-4 flex flex-col gap-2">
+            {navLinks[usertype].map((item) => {
+              const isActive = location.pathname === item.path
+              return (
+                <button
+                  key={item.label}
+                  onClick={() => {
+                    navigate(item.path)
+                    setOpen(false)
+                  }}
+                  className={`
+                    w-full text-left px-4 py-2 rounded-lg text-sm font-medium
+                    ${isActive
+                      ? 'bg-blue-600 text-white'
+                      : 'text-gray-600 hover:bg-blue-50'}
+                  `}
+                >
+                  {item.label}
+                </button>
+              )
+            })}
 
-            return (
-              <button
-                key={item.label}
-                onClick={() => {
-                  navigate(item.path)
-                  setOpen(false)
-                }}
-                className={`
-                  px-4 py-2 rounded-full text-sm font-medium transition text-left
-                  ${isActive
-                    ? 'bg-blue-600 text-white shadow'
-                    : 'text-gray-600 hover:bg-blue-50 hover:text-blue-600'}
-                `}
-              >
-                {item.label}
-              </button>
-            )
-          })}
-
-          <button
-            onClick={logout}
-            className="px-4 py-2 rounded-full text-sm font-medium
-                       text-red-600 hover:bg-red-50 transition"
-          >
-            Logout
-          </button>
-        </div>
+            <button
+              onClick={logout}
+              className="w-full text-left px-4 py-2 rounded-lg
+                         text-red-600 hover:bg-red-50"
+            >
+              Logout
+            </button>
+          </div>
+        )}
 
       </nav>
     </div>
