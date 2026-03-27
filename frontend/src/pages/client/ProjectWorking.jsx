@@ -85,7 +85,7 @@ const ProjectWorking = () => {
         <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
           <div>
             <span className="eyebrow">Client Project View</span>
-            <h2 className="mt-4 text-4xl font-semibold text-[#123c33]">{project.title}</h2>
+            <h2 className="mt-4 text-xl font-semibold text-[#123c33] md:text-2xl">{project.title}</h2>
             <p className="muted-copy mt-3 max-w-3xl leading-7">{project.description}</p>
           </div>
           <span className={`status-pill ${String(project.status).toLowerCase()}`}>{project.status}</span>
@@ -104,7 +104,7 @@ const ProjectWorking = () => {
 
       {project.freelancerId && (
         <div className="panel rounded-[30px] p-6">
-          <h3 className="text-2xl font-semibold text-[#123c33]">Submission Review</h3>
+          <h3 className="text-xl font-semibold text-[#123c33]">Submission Review</h3>
 
           {project.submission ? (
             <div className="mt-5 grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
@@ -154,7 +154,7 @@ const ProjectWorking = () => {
       )}
 
       <div className="panel rounded-[30px] p-6">
-        <h3 className="text-2xl font-semibold text-[#123c33]">Project Chat</h3>
+        <h3 className="text-xl font-semibold text-[#123c33]">Project Chat</h3>
 
         {project.freelancerId ? (
           <>

@@ -69,7 +69,7 @@ const ProjectApplications = () => {
         <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
             <span className="eyebrow">Applications Review</span>
-            <h2 className="mt-4 text-4xl font-semibold text-[#123c33]">Compare proposals with better clarity.</h2>
+            <h2 className="mt-4 text-xl font-semibold text-[#123c33] md:text-2xl">Compare proposals with better clarity.</h2>
             <p className="muted-copy mt-3 max-w-2xl">
               Filter by project, review fit, and move faster when it is time to approve the right freelancer.
             </p>
@@ -97,7 +97,7 @@ const ProjectApplications = () => {
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">Project</p>
-                    <h3 className="mt-2 text-2xl font-semibold text-[#123c33]">{app.title}</h3>
+                    <h3 className="mt-2 text-xl font-semibold text-[#123c33]">{app.title}</h3>
                   </div>
                   <span className={`status-pill ${String(app.status).toLowerCase()}`}>
                     {app.status}
@@ -157,7 +157,7 @@ const ProjectApplications = () => {
 
         {displayApplications.length === 0 && (
           <div className="panel rounded-[28px] p-10 text-center">
-            <p className="text-2xl font-semibold text-[#123c33]">No applications found</p>
+            <p className="text-xl font-semibold text-[#123c33]">No applications found</p>
             <p className="muted-copy mt-3">Applications will appear here once freelancers start applying.</p>
           </div>
         )}

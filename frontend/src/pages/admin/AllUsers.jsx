@@ -37,7 +37,7 @@ const AllUsers = () => {
     <div className="mx-auto max-w-6xl px-4 py-6">
       <div className="panel rounded-[32px] p-6 md:p-8">
         <span className="eyebrow">User Directory</span>
-        <h2 className="mt-4 text-4xl font-semibold text-[#123c33]">Review platform members with clarity.</h2>
+        <h2 className="mt-4 text-xl font-semibold text-[#123c33] md:text-2xl">Review platform members with clarity.</h2>
       </div>
 
       <div className="panel mt-6 overflow-x-auto rounded-[30px] p-3">

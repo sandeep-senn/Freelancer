@@ -60,7 +60,7 @@ const Freelancer = () => {
         <span className="eyebrow">Freelancer Dashboard</span>
         <div className="mt-4 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <h2 className="text-4xl font-semibold text-[#123c33]">
+            <h2 className="text-xl font-semibold text-[#123c33] md:text-2xl">
               Run your freelance workflow like a studio.
             </h2>
             <p className="muted-copy mt-3 max-w-2xl">
@@ -97,7 +97,7 @@ const Freelancer = () => {
             <div className="mb-6 flex items-center justify-between gap-4">
               <div>
                 <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">Profile</p>
-                <h3 className="mt-2 text-3xl font-semibold text-[#123c33]">
+                <h3 className="mt-2 text-xl font-semibold text-[#123c33] md:text-2xl">
                   Professional Snapshot
                 </h3>
               </div>
@@ -136,7 +136,7 @@ const Freelancer = () => {
           </>
         ) : (
           <>
-            <h3 className="mb-5 text-3xl font-semibold text-[#123c33]">Update Profile</h3>
+            <h3 className="mb-5 text-xl font-semibold text-[#123c33] md:text-2xl">Update Profile</h3>
 
             <div className="mb-3">
               <label className="mb-2 block font-sans text-sm font-medium text-[#123c33]">Skills</label>
@@ -187,7 +187,7 @@ const DashboardCard = ({ title, value, onClick }) => (
     className="panel stat-card cursor-pointer rounded-[28px] p-6 transition hover:-translate-y-1"
   >
     <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">{title}</p>
-    <p className="mt-4 text-4xl font-semibold text-[#123c33]">{value}</p>
+    <p className="mt-4 text-xl font-semibold text-[#123c33] md:text-2xl">{value}</p>
     <p className="muted-copy mt-3 text-sm">Open workspace</p>
   </div>
 );

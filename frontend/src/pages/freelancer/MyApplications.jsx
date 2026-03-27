@@ -29,7 +29,7 @@ const MyApplications = () => {
     <div className="mx-auto max-w-6xl px-4 py-6">
       <div className="panel rounded-[32px] p-6 md:p-8">
         <span className="eyebrow">My Applications</span>
-        <h2 className="mt-4 text-4xl font-semibold text-[#123c33]">Keep track of every proposal you send.</h2>
+        <h2 className="mt-4 text-xl font-semibold text-[#123c33] md:text-2xl">Keep track of every proposal you send.</h2>
         <p className="muted-copy mt-3 max-w-2xl">
           Review the projects you have applied to, your proposal quality, and where each opportunity currently stands.
         </p>
@@ -43,7 +43,7 @@ const MyApplications = () => {
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">Applied Project</p>
-                    <h3 className="mt-2 text-2xl font-semibold text-[#123c33]">{app.title}</h3>
+                    <h3 className="mt-2 text-xl font-semibold text-[#123c33]">{app.title}</h3>
                   </div>
                   <span className={`status-pill ${String(app.status).toLowerCase()}`}>{app.status}</span>
                 </div>
@@ -79,7 +79,7 @@ const MyApplications = () => {
 
         {applications.length === 0 && (
           <div className="panel rounded-[28px] p-10 text-center">
-            <p className="text-2xl font-semibold text-[#123c33]">No applications yet</p>
+            <p className="text-xl font-semibold text-[#123c33]">No applications yet</p>
             <p className="muted-copy mt-3">Your submitted bids will appear here once you start applying.</p>
           </div>
         )}

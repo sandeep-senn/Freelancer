@@ -146,7 +146,7 @@ const Landing = () => {
         <div className="grid gap-8 md:grid-cols-[0.7fr_1.3fr]">
           <div>
             <span className="eyebrow">How It Works</span>
-            <h2 className="mt-5 text-4xl font-semibold text-[#123c33]">
+            <h2 className="mt-5 text-xl font-semibold text-[#123c33] md:text-2xl">
               A cleaner operating rhythm for both sides.
             </h2>
           </div>
@@ -177,7 +177,7 @@ const Landing = () => {
 const Card = ({ title, text }) => (
   <div className="panel rounded-[30px] p-8">
     <div className="mb-5 h-12 w-12 rounded-2xl bg-[#f6e7d2]" />
-    <h3 className="text-2xl font-semibold text-[#123c33]">{title}</h3>
+    <h3 className="text-xl font-semibold text-[#123c33]">{title}</h3>
     <p className="muted-copy mt-3 leading-7">{text}</p>
   </div>
 );
@@ -187,7 +187,7 @@ const Step = ({ step, title, desc }) => (
     <p className="font-sans text-xs font-semibold uppercase tracking-[0.22em] text-[#ba7c32]">
       {step}
     </p>
-    <h4 className="mt-3 text-2xl font-semibold text-[#123c33]">{title}</h4>
+    <h4 className="mt-3 text-xl font-semibold text-[#123c33]">{title}</h4>
     <p className="muted-copy mt-3 leading-7">{desc}</p>
   </div>
 );
@@ -195,7 +195,7 @@ const Step = ({ step, title, desc }) => (
 const Metric = ({ title, value, text }) => (
   <div className="rounded-[24px] border border-[#123c33]/10 bg-white/68 p-5">
     <p className="font-sans text-sm text-[#6d776f]">{title}</p>
-    <p className="mt-2 text-3xl font-semibold text-[#123c33]">{value}</p>
+    <p className="mt-2 text-xl font-semibold text-[#123c33] md:text-2xl">{value}</p>
     <p className="muted-copy mt-2 text-sm leading-6">{text}</p>
   </div>
 );

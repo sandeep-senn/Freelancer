@@ -115,7 +115,7 @@ const ProjectData = () => {
         <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
           <div>
             <span className="eyebrow">Project Detail</span>
-            <h2 className="mt-4 text-4xl font-semibold text-[#123c33]">{project.title}</h2>
+            <h2 className="mt-4 text-xl font-semibold text-[#123c33] md:text-2xl">{project.title}</h2>
             <p className="muted-copy mt-3 max-w-3xl leading-7">{project.description}</p>
           </div>
           <span className={`status-pill ${String(project.status).toLowerCase()}`}>{project.status}</span>
@@ -134,7 +134,7 @@ const ProjectData = () => {
 
       {project.status === 'Pending' && (
         <div className="panel rounded-[30px] p-6">
-          <h3 className="text-2xl font-semibold text-[#123c33]">Send Proposal</h3>
+          <h3 className="text-xl font-semibold text-[#123c33]">Send Proposal</h3>
           <p className="muted-copy mt-3 max-w-2xl">
             Position yourself clearly with a focused bid, a realistic timeline, and a concise proposal.
           </p>
@@ -179,7 +179,7 @@ const ProjectData = () => {
 
       {String(project.freelancerId || '') === user?._id && (
         <div className="panel rounded-[30px] p-6">
-          <h3 className="text-2xl font-semibold text-[#123c33]">Submit Final Delivery</h3>
+          <h3 className="text-xl font-semibold text-[#123c33]">Submit Final Delivery</h3>
 
           {project.submissionAccepted ? (
             <p className="mt-4 text-xl font-semibold text-[#245437]">Project completed and approved.</p>
@@ -229,7 +229,7 @@ const ProjectData = () => {
       )}
 
       <div className="panel rounded-[30px] p-6">
-        <h3 className="text-2xl font-semibold text-[#123c33]">Project Chat</h3>
+        <h3 className="text-xl font-semibold text-[#123c33]">Project Chat</h3>
 
         {canChat ? (
           <>

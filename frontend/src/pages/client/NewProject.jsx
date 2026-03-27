@@ -47,7 +47,7 @@ const NewProject = () => {
     <div className="mx-auto max-w-5xl px-4 py-6">
       <div className="panel rounded-[34px] p-6 md:p-8">
         <span className="eyebrow">Create Project</span>
-        <h2 className="mt-4 text-4xl font-semibold text-[#123c33]">Publish a stronger project brief.</h2>
+        <h2 className="mt-4 text-xl font-semibold text-[#123c33] md:text-2xl">Publish a stronger project brief.</h2>
         <p className="muted-copy mt-3 max-w-3xl">
           Define the outcome, budget, and required skills clearly so applications come in with better fit and less noise.
         </p>

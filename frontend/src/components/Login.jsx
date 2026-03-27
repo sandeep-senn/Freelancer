@@ -18,7 +18,7 @@ const Login = ({ setAuthType }) => {
   return (
     <form onSubmit={handleLogin} className="panel w-full max-w-lg rounded-[34px] p-8 md:p-10">
       <span className="eyebrow">Secure Access</span>
-      <h2 className="mt-5 text-4xl font-semibold text-[#123c33]">Welcome back</h2>
+      <h2 className="mt-5 text-xl font-semibold text-[#123c33] md:text-2xl">Welcome back</h2>
       <p className="muted-copy mt-3 text-base leading-7">
         Sign in to continue managing projects, conversations, and approvals inside SB Works.
       </p>

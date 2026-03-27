@@ -18,7 +18,7 @@ const Register = ({ setAuthType }) => {
   return (
     <form onSubmit={handleRegister} className="panel w-full max-w-lg rounded-[34px] p-8 md:p-10">
       <span className="eyebrow">Create Account</span>
-      <h2 className="mt-5 text-4xl font-semibold text-[#123c33]">Join the workspace</h2>
+      <h2 className="mt-5 text-xl font-semibold text-[#123c33] md:text-2xl">Join the workspace</h2>
       <p className="muted-copy mt-3 text-base leading-7">
         Build a cleaner workflow from day one, whether you are hiring, delivering, or overseeing the platform.
       </p>

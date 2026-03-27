@@ -37,7 +37,7 @@ const AllApplications = () => {
     <div className="mx-auto max-w-6xl px-4 py-6">
       <div className="panel rounded-[32px] p-6 md:p-8">
         <span className="eyebrow">Application Oversight</span>
-        <h2 className="mt-4 text-4xl font-semibold text-[#123c33]">Monitor all submitted proposals.</h2>
+        <h2 className="mt-4 text-xl font-semibold text-[#123c33] md:text-2xl">Monitor all submitted proposals.</h2>
       </div>
 
       <div className="mt-6 space-y-5">
@@ -46,7 +46,7 @@ const AllApplications = () => {
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">Application</p>
-                <h3 className="mt-2 text-2xl font-semibold text-[#123c33]">{app.title}</h3>
+                <h3 className="mt-2 text-xl font-semibold text-[#123c33]">{app.title}</h3>
               </div>
               <span className={`status-pill ${String(app.status).toLowerCase()}`}>{app.status}</span>
             </div>

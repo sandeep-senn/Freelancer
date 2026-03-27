@@ -55,7 +55,7 @@ const Authenticate = () => {
 
 const AuthFeature = ({ title, text }) => (
   <div className="rounded-[26px] border border-[#123c33]/10 bg-white/68 p-5">
-    <h3 className="text-2xl font-semibold text-[#123c33]">{title}</h3>
+    <h3 className="text-xl font-semibold text-[#123c33]">{title}</h3>
     <p className="muted-copy mt-3 leading-7">{text}</p>
   </div>
 );

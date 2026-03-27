@@ -71,8 +71,8 @@ textarea {
 }
 
 .section-title {
-  font-size: clamp(2rem, 4vw, 3.4rem);
-  line-height: 1.04;
+  font-size: clamp(1.65rem, 3vw, 2.5rem);
+  line-height: 1.1;
   letter-spacing: -0.04em;
 }
 

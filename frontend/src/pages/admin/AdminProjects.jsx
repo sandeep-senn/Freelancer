@@ -42,7 +42,7 @@ const AdminProjects = () => {
     <div className="mx-auto flex max-w-7xl gap-6 px-4 py-6">
       <aside className="panel hidden w-72 rounded-[30px] p-5 lg:block">
         <span className="eyebrow">Admin Filters</span>
-        <h3 className="mt-4 text-2xl font-semibold text-[#123c33]">Review by skill stack</h3>
+        <h3 className="mt-4 text-xl font-semibold text-[#123c33]">Review by skill stack</h3>
         <div className="mt-5 flex flex-wrap gap-2">
           {skills.map((skill) => (
             <button
@@ -62,7 +62,7 @@ const AdminProjects = () => {
       <main className="flex-1">
         <div className="panel rounded-[32px] p-6 md:p-8">
           <span className="eyebrow">Project Oversight</span>
-          <h2 className="mt-4 text-4xl font-semibold text-[#123c33]">Review all platform projects in one place.</h2>
+          <h2 className="mt-4 text-xl font-semibold text-[#123c33] md:text-2xl">Review all platform projects in one place.</h2>
         </div>
 
         <div className="mt-6 grid gap-5 xl:grid-cols-2">
@@ -71,7 +71,7 @@ const AdminProjects = () => {
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">Project</p>
-                  <h3 className="mt-2 text-2xl font-semibold text-[#123c33]">{project.title}</h3>
+                  <h3 className="mt-2 text-xl font-semibold text-[#123c33]">{project.title}</h3>
                 </div>
                 <span className={`status-pill ${String(project.status).toLowerCase()}`}>{project.status}</span>
               </div>
