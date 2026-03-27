@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
+import AppLoader from '../../components/AppLoader';
 
 const Client = () => {
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [displayProjects, setDisplayProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadProjects = async () => {
@@ -16,11 +18,17 @@ const Client = () => {
         setDisplayProjects(reversedProjects);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
 
     loadProjects();
   }, []);
+
+  if (loading) {
+    return <AppLoader label="Loading client dashboard..." />;
+  }
 
   const handleFilterChange = (status) => {
     if (!status) {

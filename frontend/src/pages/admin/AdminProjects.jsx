@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import api from '../../services/api'
+import AppLoader from '../../components/AppLoader'
 
 const AdminProjects = () => {
   const [projects, setProjects] = useState([])
   const [skills, setSkills] = useState([])
   const [filters, setFilters] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -15,10 +17,16 @@ const AdminProjects = () => {
         setSkills(uniqueSkills)
       } catch (err) {
         console.error(err)
+      } finally {
+        setLoading(false)
       }
     }
     fetchProjects()
   }, [])
+
+  if (loading) {
+    return <AppLoader label="Loading projects..." />
+  }
 
   const displayProjects = filters.length === 0
     ? projects

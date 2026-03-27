@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../../services/api'
+import AppLoader from '../../components/AppLoader'
 
 const AllProjects = () => {
   const navigate = useNavigate()
@@ -8,6 +9,7 @@ const AllProjects = () => {
   const [projects, setProjects] = useState([])
   const [skills, setSkills] = useState([])
   const [filters, setFilters] = useState([])
+  const [loading, setLoading] = useState(true)
 
   // ---------------- FETCH PROJECTS ----------------
   useEffect(() => {
@@ -25,6 +27,8 @@ const AllProjects = () => {
         setSkills(uniqueSkills)
       } catch (err) {
         console.error(err)
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -53,6 +57,10 @@ const AllProjects = () => {
         ? prev.filter(s => s !== skill)
         : [...prev, skill]
     )
+  }
+
+  if (loading) {
+    return <AppLoader label="Loading projects..." />
   }
 
   return (

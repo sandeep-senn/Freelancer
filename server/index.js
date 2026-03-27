@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'https://freelancer-lilac-eight.vercel.app')
+const allowedOrigins = ('http://localhost:5173' || 'https://freelancer-lilac-eight.vercel.app')
   .split(',')
   .map((origin) => origin.trim())
   .filter(Boolean);

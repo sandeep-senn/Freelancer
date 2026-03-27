@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../../services/api';
 import { GeneralContext } from '../../context/general-context';
+import AppLoader from '../../components/AppLoader';
 
 const ProjectData = () => {
   const { id } = useParams();
@@ -16,6 +17,7 @@ const ProjectData = () => {
   const [projectLink, setProjectLink] = useState('');
   const [manualLink, setManualLink] = useState('');
   const [submissionDescription, setSubmissionDescription] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const fetchProject = useCallback(async () => {
     try {
@@ -39,7 +41,9 @@ const ProjectData = () => {
     if (!id) return;
 
     const loadProjectData = async () => {
+      setLoading(true);
       await Promise.all([fetchProject(), fetchChat()]);
+      setLoading(false);
     };
 
     loadProjectData();
@@ -97,7 +101,9 @@ const ProjectData = () => {
     }
   };
 
-  if (!project) return null;
+  if (loading || !project) {
+    return <AppLoader label="Loading project..." />;
+  }
 
   const canChat = String(project.freelancerId || '') === user?._id || String(project.clientId) === user?._id;
   const alreadyBid = project.bids?.some((bidderId) => String(bidderId) === user?._id);

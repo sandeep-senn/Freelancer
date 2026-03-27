@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../../services/api';
+import AppLoader from '../../components/AppLoader';
 
 const NewProject = () => {
   const navigate = useNavigate();
@@ -9,6 +10,7 @@ const NewProject = () => {
   const [description, setDescription] = useState('');
   const [budget, setBudget] = useState('');
   const [skills, setSkills] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,6 +21,7 @@ const NewProject = () => {
     }
 
     try {
+      setSubmitting(true);
       await api.post('/project/create', {
         title,
         description,
@@ -31,8 +34,14 @@ const NewProject = () => {
     } catch (error) {
       console.error(error);
       toast.error(error.response?.data?.message || 'Project creation failed');
+    } finally {
+      setSubmitting(false);
     }
   };
+
+  if (submitting) {
+    return <AppLoader label="Creating project..." />;
+  }
 
   return (
     <div className="max-w-3xl mx-auto p-6">

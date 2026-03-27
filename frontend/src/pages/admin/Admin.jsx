@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
+import AppLoader from "../../components/AppLoader";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -9,6 +10,7 @@ const Admin = () => {
   const [completedCount, setCompletedCount] = useState(0);
   const [applicationsCount, setApplicationsCount] = useState(0);
   const [usersCount, setUsersCount] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const fetchDashboardData = async () => {
     try {
@@ -28,6 +30,8 @@ const Admin = () => {
       setUsersCount(usersRes.data.length);
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -37,6 +41,10 @@ const Admin = () => {
     };
     loadData();
   }, []);
+
+  if (loading) {
+    return <AppLoader label="Loading admin dashboard..." />;
+  }
 
   return (
     <div className="p-6">

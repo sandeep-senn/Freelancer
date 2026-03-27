@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import api from '../../services/api';
+import AppLoader from '../../components/AppLoader';
 
 const ProjectApplications = () => {
   const [applications, setApplications] = useState([]);
   const [displayApplications, setDisplayApplications] = useState([]);
   const [projectTitles, setProjectTitles] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchApplications = async () => {
     try {
@@ -15,6 +17,8 @@ const ProjectApplications = () => {
       setProjectTitles([...new Set(data.map((application) => application.title))]);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,6 +58,10 @@ const ProjectApplications = () => {
 
     setDisplayApplications(applications.filter((app) => app.title === value).reverse());
   };
+
+  if (loading) {
+    return <AppLoader label="Loading applications..." />;
+  }
 
   return (
     <div className="p-6 max-w-6xl mx-auto">

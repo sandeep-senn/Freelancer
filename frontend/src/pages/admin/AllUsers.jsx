@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import api from '../../services/api'
+import AppLoader from '../../components/AppLoader'
 
 const AllUsers = () => {
   const [users, setUsers] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     let isMounted = true
@@ -15,6 +17,8 @@ const AllUsers = () => {
         }
       } catch (err) {
         console.error(err)
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -24,6 +28,10 @@ const AllUsers = () => {
       isMounted = false
     }
   }, [])
+
+  if (loading) {
+    return <AppLoader label="Loading users..." />
+  }
 
   return (
     <div className="p-6">

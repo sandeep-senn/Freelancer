@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../../services/api';
+import AppLoader from '../../components/AppLoader';
 
 const Freelancer = () => {
   const navigate = useNavigate();
@@ -10,6 +11,7 @@ const Freelancer = () => {
   const [editOpen, setEditOpen] = useState(false);
   const [editSkills, setEditSkills] = useState('');
   const [editDescription, setEditDescription] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const loadFreelancer = async () => {
     try {
@@ -19,6 +21,8 @@ const Freelancer = () => {
       setEditDescription(data.description || '');
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -46,7 +50,9 @@ const Freelancer = () => {
     }
   };
 
-  if (!freelancer) return null;
+  if (loading || !freelancer) {
+    return <AppLoader label="Loading dashboard..." />;
+  }
 
   return (
     <div className="p-6 max-w-6xl mx-auto space-y-8">

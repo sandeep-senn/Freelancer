@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../../services/api';
 import { GeneralContext } from '../../context/general-context';
+import AppLoader from '../../components/AppLoader';
 
 const ProjectWorking = () => {
   const { id } = useParams();
@@ -10,6 +11,7 @@ const ProjectWorking = () => {
   const [project, setProject] = useState(null);
   const [chat, setChat] = useState({ messages: [] });
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const fetchProject = useCallback(async () => {
     try {
@@ -33,7 +35,9 @@ const ProjectWorking = () => {
     if (!id) return;
 
     const loadProjectData = async () => {
+      setLoading(true);
       await Promise.all([fetchProject(), fetchChat()]);
+      setLoading(false);
     };
 
     loadProjectData();
@@ -71,7 +75,9 @@ const ProjectWorking = () => {
     }
   };
 
-  if (!project) return null;
+  if (loading || !project) {
+    return <AppLoader label="Loading project..." />;
+  }
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-6">

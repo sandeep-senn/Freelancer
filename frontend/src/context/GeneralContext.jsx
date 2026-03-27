@@ -25,6 +25,9 @@ const GeneralContextProvider = ({ children }) => {
       }
 
       setToken(storedAuth.token);
+      if (storedAuth.user) {
+        setUser(storedAuth.user);
+      }
 
       try {
         const { data } = await api.get('/auth/me', {
@@ -35,10 +38,14 @@ const GeneralContextProvider = ({ children }) => {
 
         setUser(data.user);
         saveStoredAuth({ token: storedAuth.token, user: data.user });
-      } catch {
-        clearStoredAuth();
-        setToken('');
-        setUser(null);
+      } catch (error) {
+        if (error.response?.status === 401) {
+          clearStoredAuth();
+          setToken('');
+          setUser(null);
+        } else if (storedAuth.user) {
+          setUser(storedAuth.user);
+        }
       } finally {
         setAuthReady(true);
       }
