@@ -16,10 +16,38 @@ const app = express();
 app.use(express.json());
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://freelancer-lilac-eight.vercel.app"
-];
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'http://localhost:5173')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+const requestCounts = new Map();
+
+const securityHeaders = (req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  next();
+};
+
+const createRateLimiter = ({ windowMs, maxRequests }) => (req, res, next) => {
+  const key = `${req.ip}:${req.path}`;
+  const now = Date.now();
+  const entry = requestCounts.get(key);
+
+  if (!entry || now - entry.start > windowMs) {
+    requestCounts.set(key, { count: 1, start: now });
+    return next();
+  }
+
+  if (entry.count >= maxRequests) {
+    return res.status(429).json({ message: 'Too many requests, please try again later' });
+  }
+
+  entry.count += 1;
+  return next();
+};
+
+app.use(securityHeaders);
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -36,7 +64,9 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-app.options("*", cors());
+app.options("*", cors({ origin: allowedOrigins, credentials: true }));
+app.use('/auth', createRateLimiter({ windowMs: 1000 * 60 * 15, maxRequests: 40 }));
+app.use('/ai', createRateLimiter({ windowMs: 1000 * 60 * 5, maxRequests: 20 }));
 
 
 // Attach Routes
@@ -50,9 +80,6 @@ app.use('/ai', aiRoutes);
 
 const PORT = process.env.PORT || 6001;
 
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => {
+mongoose.connect(process.env.MONGO_URI).then(() => {
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 }).catch((err) => console.log(`DB connection error: ${err}`));

@@ -1,20 +1,16 @@
-import OpenAI from "openai";
+import OpenAI from 'openai';
 
-// create client only when API is called
-const getOpenAI = () => {
-  return new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
+const getOpenAI = () =>
+  new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY
   });
-};
-console.log(process.env.OPENAI_API_KEY)
 
-// 🧑‍💻 Freelancer Description
 export const generateFreelancerDescription = async (req, res) => {
   try {
     const { skills, role, experience } = req.body;
 
     if (!skills || !role) {
-      return res.status(400).json({ message: "Missing fields" });
+      return res.status(400).json({ message: 'Missing fields' });
     }
 
     const openai = getOpenAI();
@@ -23,31 +19,30 @@ export const generateFreelancerDescription = async (req, res) => {
 Write a professional freelancer profile description.
 Role: ${role}
 Skills: ${skills}
-Experience: ${experience || "Fresher"}
+Experience: ${experience || 'Fresher'}
 Tone: professional, concise, client-friendly (4-5 lines)
 `;
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-4.1-mini",
-      messages: [{ role: "user", content: prompt }],
+      model: 'gpt-4.1-mini',
+      messages: [{ role: 'user', content: prompt }]
     });
 
-    res.json({
-      description: completion.choices[0].message.content,
+    return res.json({
+      description: completion.choices[0].message.content
     });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Unable to generate freelancer description' });
   }
 };
 
-// 📦 Project Description Improver
 export const improveProjectDescription = async (req, res) => {
   try {
     const { title, description, skills, budget } = req.body;
 
     if (!description) {
-      return res.status(400).json({ message: "Description required" });
+      return res.status(400).json({ message: 'Description required' });
     }
 
     const openai = getOpenAI();
@@ -62,15 +57,15 @@ Make it clear, structured, and professional.
 `;
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-4.1-mini",
-      messages: [{ role: "user", content: prompt }],
+      model: 'gpt-4.1-mini',
+      messages: [{ role: 'user', content: prompt }]
     });
 
-    res.json({
-      improvedDescription: completion.choices[0].message.content,
+    return res.json({
+      improvedDescription: completion.choices[0].message.content
     });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Unable to improve project description' });
   }
 };

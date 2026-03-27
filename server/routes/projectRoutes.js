@@ -7,26 +7,27 @@ import {
     approveSubmission, 
     rejectSubmission 
 } from '../controllers/projectController.js';
+import { requireAuth, requireRole } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
 // Create new project
-router.post('/create', createProject);
+router.post('/create', requireAuth, requireRole('client', 'admin'), createProject);
 
 // Submit project
-router.post('/submit', submitProject);
+router.post('/submit', requireAuth, requireRole('freelancer'), submitProject);
 
 // Approve submission
-router.get('/approve/:id', approveSubmission);
+router.post('/approve/:id', requireAuth, requireRole('client', 'admin'), approveSubmission);
 
 // Reject submission
-router.get('/reject/:id', rejectSubmission);
+router.post('/reject/:id', requireAuth, requireRole('client', 'admin'), rejectSubmission);
 
 // Fetch all projects
-router.get('/', fetchProjects);
+router.get('/', requireAuth, fetchProjects);
 
 // Fetch single project (LAST)
-router.get('/:id', fetchProject);
+router.get('/:id', requireAuth, fetchProject);
 
 
 export default router;

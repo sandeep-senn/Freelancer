@@ -1,122 +1,95 @@
-import { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import api from '../../services/api'
-import { GeneralContext } from '../../context/GeneralContext'
-import {toast} from 'react-toastify'
+import { useCallback, useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import api from '../../services/api';
+import { GeneralContext } from '../../context/general-context';
 
 const ProjectWorking = () => {
-  const { id } = useParams()
-  const { socket } = useContext(GeneralContext)
+  const { id } = useParams();
+  const { user } = useContext(GeneralContext);
+  const [project, setProject] = useState(null);
+  const [chat, setChat] = useState({ messages: [] });
+  const [message, setMessage] = useState('');
 
-  const [project, setProject] = useState(null)
-  const [chats, setChats] = useState(null)
-  const [message, setMessage] = useState('')
+  const fetchProject = useCallback(async () => {
+    try {
+      const { data } = await api.get(`/project/${id}`);
+      setProject(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [id]);
 
-const fetchProject = async (projectId) => {
-  try {
-    const { data } = await api.get(`/project/${projectId}`)
-    setProject(data)
-  } catch (err) {
-    console.error(err)
-  }
-}
+  const fetchChat = useCallback(async () => {
+    try {
+      const { data } = await api.get(`/chat/project/${id}`);
+      setChat(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [id]);
 
-const fetchChats = async (projectId) => {
-  try {
-    const { data } = await api.get(`/chat/${projectId}`)
-    setChats(data)
-  } catch (err) {
-    console.error(err)
-  }
-}
+  useEffect(() => {
+    if (!id) return;
 
-useEffect(() => {
-  if (!id) return
+    const loadProjectData = async () => {
+      await Promise.all([fetchProject(), fetchChat()]);
+    };
 
-  const loadData = async () => {
-    await Promise.all([
-      fetchProject(id),
-      fetchChats(id)
-    ])
-  }
-
-  loadData()
-}, [id])
-
-
-
-  // 🔹 SOCKET LISTENER
- useEffect(() => {
-  if (!socket) return
-
-  const onMessage = () => fetchChats(id)
-
-  socket.on('message-from-user', onMessage)
-
-  return () => socket.off('message-from-user', onMessage)
-}, [socket, id])
-
+    loadProjectData();
+  }, [fetchChat, fetchProject, id]);
 
   const handleApproveSubmission = async () => {
     try {
-      await api.post(`/application/approve/${id}`)
-      toast.success('Submission approved')
-      fetchProject()
-    } catch {
-      toast.error('Operation failed')
+      await api.post(`/project/approve/${id}`);
+      toast.success('Submission approved');
+      fetchProject();
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Operation failed');
     }
-  }
+  };
 
   const handleRejectSubmission = async () => {
     try {
-      await api.post(`/application/reject/${id}`)
-      toast.success('Submission rejected')
-      fetchProject()
-    } catch {
-      toast.error('Operation failed')
+      await api.post(`/project/reject/${id}`);
+      toast.success('Submission rejected');
+      fetchProject();
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Operation failed');
     }
-  }
+  };
 
-  const handleMessageSend = () => {
-    if (!message.trim()) return
+  const handleMessageSend = async () => {
+    if (!message.trim()) return;
 
-    socket.emit('new-message', {
-      projectId: id,
-      senderId: localStorage.getItem('userId'),
-      message,
-      time: new Date()
-    })
+    try {
+      await api.post(`/chat/project/${id}/message`, { text: message });
+      setMessage('');
+      fetchChat();
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Message failed');
+    }
+  };
 
-    setMessage('')
-  }
-
-  if (!project) return null
+  if (!project) return null;
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-6">
-
-      {/* PROJECT INFO */}
       <div className="bg-white p-6 rounded-xl shadow">
         <h2 className="text-2xl font-semibold">{project.title}</h2>
         <p className="text-gray-600">{project.description}</p>
 
         <div className="flex flex-wrap gap-2 mt-3">
-          {project.skills.map(skill => (
-            <span
-              key={skill}
-              className="bg-gray-100 px-3 py-1 rounded text-sm"
-            >
+          {project.skills.map((skill) => (
+            <span key={skill} className="bg-gray-100 px-3 py-1 rounded text-sm">
               {skill}
             </span>
           ))}
         </div>
 
-        <p className="mt-3 font-medium">
-          Budget: ₹{project.budget}
-        </p>
+        <p className="mt-3 font-medium">Budget: Rs {project.budget}</p>
       </div>
 
-      {/* SUBMISSION */}
       {project.freelancerId && (
         <div className="bg-white p-6 rounded-xl shadow">
           <h3 className="font-semibold text-lg mb-2">Submission</h3>
@@ -128,6 +101,7 @@ useEffect(() => {
                 <a
                   href={project.projectLink}
                   target="_blank"
+                  rel="noreferrer"
                   className="text-blue-600 underline"
                 >
                   View
@@ -137,9 +111,7 @@ useEffect(() => {
               <p className="mt-2">{project.submissionDescription}</p>
 
               {project.submissionAccepted ? (
-                <p className="text-green-600 mt-3 font-semibold">
-                  Project Completed
-                </p>
+                <p className="text-green-600 mt-3 font-semibold">Project Completed</p>
               ) : (
                 <div className="flex gap-3 mt-4">
                   <button
@@ -163,20 +135,17 @@ useEffect(() => {
         </div>
       )}
 
-      {/* CHAT */}
       <div className="bg-white p-6 rounded-xl shadow">
         <h3 className="font-semibold mb-3">Chat</h3>
 
         {project.freelancerId ? (
           <>
             <div className="h-64 overflow-y-auto space-y-2 mb-3">
-              {chats?.messages.map((msg, idx) => (
+              {chat.messages?.map((msg) => (
                 <div
-                  key={idx}
+                  key={`${msg.timestamp}-${msg.senderId}`}
                   className={`p-2 rounded max-w-xs ${
-                    msg.senderId === localStorage.getItem('userId')
-                      ? 'bg-blue-100 ml-auto'
-                      : 'bg-gray-100'
+                    String(msg.senderId) === user?._id ? 'bg-blue-100 ml-auto' : 'bg-gray-100'
                   }`}
                 >
                   <p>{msg.text}</p>
@@ -187,7 +156,7 @@ useEffect(() => {
             <div className="flex gap-2">
               <input
                 value={message}
-                onChange={(e) => setMessage(e.target.value)}
+                onChange={(event) => setMessage(event.target.value)}
                 className="flex-1 border px-3 py-2 rounded"
                 placeholder="Type message..."
               />
@@ -200,13 +169,11 @@ useEffect(() => {
             </div>
           </>
         ) : (
-          <p className="text-gray-500">
-            Chat enabled after project assignment
-          </p>
+          <p className="text-gray-500">Chat enabled after project assignment</p>
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProjectWorking
+export default ProjectWorking;

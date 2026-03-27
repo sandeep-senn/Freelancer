@@ -1,50 +1,40 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import api from "../../services/api";
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api from '../../services/api';
+import { GeneralContext } from '../../context/general-context';
 
 const MyProjects = () => {
   const navigate = useNavigate();
-  const userId = localStorage.getItem("userId");
-
+  const { user } = useContext(GeneralContext);
   const [projects, setProjects] = useState([]);
   const [displayProjects, setDisplayProjects] = useState([]);
 
   useEffect(() => {
     const fetchMyProjects = async () => {
       try {
-        const { data } = await api.get("/project");
+        const { data } = await api.get('/project');
 
         const myProjects = data.filter(
-          (project) => project.freelancerId?.toString() === userId
+          (project) => String(project.freelancerId || '') === user?._id
         );
 
         setProjects(myProjects);
         setDisplayProjects([...myProjects].reverse());
-      } catch (err) {
-        console.error(err);
+      } catch (error) {
+        console.error(error);
       }
     };
 
     fetchMyProjects();
-  }, []);
+  }, [user?._id]);
 
-  // ---------------- FILTER ----------------
   const handleFilterChange = (value) => {
     if (!value) {
       setDisplayProjects([...projects].reverse());
-    } else if (value === "In Progress") {
-      setDisplayProjects(
-        projects.filter((p) => p.status === "Assigned").reverse()
-      );
-    } else if (value === "Completed") {
-      setDisplayProjects(
-        projects.filter((p) => p.status === "Completed").reverse()
-      );
-    } else if (value === "Assigned") {
-      setDisplayProjects(
-        projects.filter((p) => p.status === "Assigned").reverse()
-      );
+      return;
     }
+
+    setDisplayProjects(projects.filter((project) => project.status === value).reverse());
   };
 
   return (
@@ -53,7 +43,7 @@ const MyProjects = () => {
         <h2 className="text-2xl font-semibold">My Projects</h2>
 
         <select
-          onChange={(e) => handleFilterChange(e.target.value)}
+          onChange={(event) => handleFilterChange(event.target.value)}
           className="border px-3 py-2 rounded-lg"
         >
           <option value="">All Status</option>
@@ -72,19 +62,17 @@ const MyProjects = () => {
             <div className="flex justify-between mb-2">
               <h3 className="text-lg font-semibold">{project.title}</h3>
               <span className="text-sm text-gray-500">
-                {String(project.postedDate).slice(0, 15)}
+                {new Date(project.postedDate).toLocaleDateString()}
               </span>
             </div>
 
             <p className="text-gray-600 mb-2">{project.description}</p>
 
             <div className="flex justify-between text-sm">
-              <span className="font-medium">Budget: ₹{project.budget}</span>
+              <span className="font-medium">Budget: Rs {project.budget}</span>
               <span
                 className={`font-semibold ${
-                  project.status === "Completed"
-                    ? "text-green-600"
-                    : "text-blue-600"
+                  project.status === 'Completed' ? 'text-green-600' : 'text-blue-600'
                 }`}
               >
                 {project.status}

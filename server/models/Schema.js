@@ -2,9 +2,9 @@ import mongoose from 'mongoose';
 
 // ------------------ USER ------------------
 const userSchema = new mongoose.Schema({
-    username: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    username: { type: String, required: true, trim: true },
+    email: { type: String, required: true, unique: true, trim: true, lowercase: true },
+    password: { type: String, required: true, select: false },
     usertype: { type: String, enum: ['freelancer', 'client', 'admin'], required: true },
 }, { timestamps: true });
 
@@ -73,7 +73,7 @@ export const Application = mongoose.model('Application', applicationSchema);
 const chatSchema = new mongoose.Schema({
     participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     messages: [{
-        sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        senderId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
         text: { type: String },
         timestamp: { type: Date, default: Date.now }
     }]

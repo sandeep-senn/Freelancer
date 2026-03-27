@@ -1,68 +1,89 @@
-import { createContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import api from '../services/api'
-
-export const GeneralContext = createContext()
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api from '../services/api';
+import { GeneralContext } from './general-context';
+import { clearStoredAuth, loadStoredAuth, saveStoredAuth } from '../utils/auth';
 
 const GeneralContextProvider = ({ children }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [authReady, setAuthReady] = useState(false);
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState('');
 
-  const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [usertype, setUsertype] = useState('')
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [usertype, setUsertype] = useState('');
 
-  // ---------------- LOGIN ----------------
+  useEffect(() => {
+    const syncSession = async () => {
+      const storedAuth = loadStoredAuth();
+
+      if (!storedAuth?.token) {
+        setAuthReady(true);
+        return;
+      }
+
+      setToken(storedAuth.token);
+
+      try {
+        const { data } = await api.get('/auth/me', {
+          headers: {
+            Authorization: `Bearer ${storedAuth.token}`
+          }
+        });
+
+        setUser(data.user);
+        saveStoredAuth({ token: storedAuth.token, user: data.user });
+      } catch {
+        clearStoredAuth();
+        setToken('');
+        setUser(null);
+      } finally {
+        setAuthReady(true);
+      }
+    };
+
+    syncSession();
+  }, []);
+
+  const persistSession = ({ user: nextUser, token: nextToken }) => {
+    setUser(nextUser);
+    setToken(nextToken);
+    saveStoredAuth({ user: nextUser, token: nextToken });
+  };
+
   const login = async () => {
-    try {
-      const { data } = await api.post('/auth/login', {
-        email,
-        password
-      })
+    const { data } = await api.post('/auth/login', { email, password });
+    persistSession(data);
+    navigate(`/${data.user.usertype}`);
+  };
 
-      localStorage.setItem('userId', data._id)
-      localStorage.setItem('usertype', data.usertype)
-      localStorage.setItem('username', data.username)
-      localStorage.setItem('email', data.email)
-
-      navigate(`/${data.usertype}`)
-    } catch (error) {
-      alert('Login failed')
-      console.error(error)
-    }
-  }
-
-  // ---------------- REGISTER ----------------
   const register = async () => {
-    try {
-      const { data } = await api.post('/auth/register', {
-        username,
-        email,
-        password,
-        usertype
-      })
+    const { data } = await api.post('/auth/register', {
+      username,
+      email,
+      password,
+      usertype
+    });
 
-      localStorage.setItem('userId', data._id)
-      localStorage.setItem('usertype', data.usertype)
-      localStorage.setItem('username', data.username)
-      localStorage.setItem('email', data.email)
+    persistSession(data);
+    navigate(`/${data.user.usertype}`);
+  };
 
-      navigate(`/${data.usertype}`)
-    } catch (error) {
-      alert('Registration failed')
-      console.error(error)
-    }
-  }
-
-  // ---------------- LOGOUT ----------------
   const logout = () => {
-    localStorage.clear()
-    navigate('/')
-  }
+    clearStoredAuth();
+    setToken('');
+    setUser(null);
+    navigate('/');
+  };
 
   return (
     <GeneralContext.Provider
       value={{
+        authReady,
+        user,
+        token,
         login,
         register,
         logout,
@@ -78,7 +99,7 @@ const GeneralContextProvider = ({ children }) => {
     >
       {children}
     </GeneralContext.Provider>
-  )
-}
+  );
+};
 
-export default GeneralContextProvider
+export default GeneralContextProvider;
