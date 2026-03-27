@@ -55,8 +55,24 @@ const Freelancer = () => {
   }
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-8">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+    <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
+      <div className="panel rounded-[32px] p-6 md:p-8">
+        <span className="eyebrow">Freelancer Dashboard</span>
+        <div className="mt-4 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h2 className="text-4xl font-semibold text-[#123c33]">
+              Run your freelance workflow like a studio.
+            </h2>
+            <p className="muted-copy mt-3 max-w-2xl">
+              Track assignments, position your profile clearly, and keep delivery quality visible
+              from application to payout.
+            </p>
+          </div>
+          <span className="metric-chip">Funds available: Rs {freelancer.funds}</span>
+        </div>
+      </div>
+
+      <div className="dashboard-grid">
         <DashboardCard
           title="Current Projects"
           value={freelancer.currentProjects.length}
@@ -75,67 +91,86 @@ const Freelancer = () => {
         <DashboardCard title="Funds" value={`Rs ${freelancer.funds}`} />
       </div>
 
-      <div className="bg-white p-6 rounded-xl shadow">
+      <div className="panel rounded-[32px] p-6 md:p-8">
         {!editOpen ? (
           <>
-            <h3 className="text-xl font-semibold mb-3">My Profile</h3>
+            <div className="mb-6 flex items-center justify-between gap-4">
+              <div>
+                <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">Profile</p>
+                <h3 className="mt-2 text-3xl font-semibold text-[#123c33]">
+                  Professional Snapshot
+                </h3>
+              </div>
+              <button
+                onClick={() => setEditOpen(true)}
+                className="ghost-button rounded-full px-5 py-2.5 font-sans text-sm font-semibold"
+              >
+                Update Profile
+              </button>
+            </div>
 
-            <div className="mb-4">
-              <h4 className="font-medium">Skills</h4>
-              <div className="flex gap-2 flex-wrap mt-1">
-                {freelancer.skills.length > 0 ? (
-                  freelancer.skills.map((skill) => (
-                    <span key={skill} className="bg-gray-100 px-3 py-1 rounded text-sm">
-                      {skill}
-                    </span>
-                  ))
-                ) : (
-                  <p className="text-gray-500">No skills added</p>
-                )}
+            <div className="grid gap-5 md:grid-cols-[1.1fr_0.9fr]">
+              <div className="rounded-[28px] border border-[#123c33]/10 bg-white/65 p-5">
+                <h4 className="text-xl font-semibold text-[#123c33]">Description</h4>
+                <p className="muted-copy mt-3 leading-7">
+                  {freelancer.description ||
+                    'Add a sharper positioning statement to help clients trust your fit faster.'}
+                </p>
+              </div>
+
+              <div className="rounded-[28px] border border-[#123c33]/10 bg-white/65 p-5">
+                <h4 className="text-xl font-semibold text-[#123c33]">Skills</h4>
+                <div className="mt-4 flex gap-2 flex-wrap">
+                  {freelancer.skills.length > 0 ? (
+                    freelancer.skills.map((skill) => (
+                      <span key={skill} className="metric-chip">
+                        {skill}
+                      </span>
+                    ))
+                  ) : (
+                    <p className="muted-copy">No skills added</p>
+                  )}
+                </div>
               </div>
             </div>
-
-            <div className="mb-4">
-              <h4 className="font-medium">Description</h4>
-              <p className="text-gray-600">{freelancer.description || 'No description added'}</p>
-            </div>
-
-            <button
-              onClick={() => setEditOpen(true)}
-              className="border border-green-600 text-green-600 px-4 py-1 rounded hover:bg-green-50"
-            >
-              Update Profile
-            </button>
           </>
         ) : (
           <>
-            <h3 className="text-xl font-semibold mb-3">Update Profile</h3>
+            <h3 className="mb-5 text-3xl font-semibold text-[#123c33]">Update Profile</h3>
 
             <div className="mb-3">
-              <label className="block text-sm font-medium">Skills</label>
+              <label className="mb-2 block font-sans text-sm font-medium text-[#123c33]">Skills</label>
               <input
                 value={editSkills}
                 onChange={(event) => setEditSkills(event.target.value)}
-                className="w-full border px-3 py-2 rounded"
+                className="w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans"
                 placeholder="React, Node, MongoDB"
               />
             </div>
 
             <div className="mb-4">
-              <label className="block text-sm font-medium">Description</label>
+              <label className="mb-2 block font-sans text-sm font-medium text-[#123c33]">
+                Description
+              </label>
               <textarea
                 value={editDescription}
                 onChange={(event) => setEditDescription(event.target.value)}
-                className="w-full border px-3 py-2 rounded"
+                className="w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans"
                 rows="4"
               />
             </div>
 
             <div className="flex gap-3">
-              <button onClick={updateProfile} className="bg-green-600 text-white px-4 py-1 rounded">
+              <button
+                onClick={updateProfile}
+                className="brand-button rounded-full px-5 py-2.5 font-sans text-sm font-semibold"
+              >
                 Save
               </button>
-              <button onClick={() => setEditOpen(false)} className="border px-4 py-1 rounded">
+              <button
+                onClick={() => setEditOpen(false)}
+                className="ghost-button rounded-full px-5 py-2.5 font-sans text-sm font-semibold"
+              >
                 Cancel
               </button>
             </div>
@@ -149,10 +184,11 @@ const Freelancer = () => {
 const DashboardCard = ({ title, value, onClick }) => (
   <div
     onClick={onClick}
-    className="bg-white p-5 rounded-xl shadow cursor-pointer hover:shadow-lg transition"
+    className="panel stat-card cursor-pointer rounded-[28px] p-6 transition hover:-translate-y-1"
   >
-    <h4 className="text-gray-600">{title}</h4>
-    <p className="text-2xl font-bold mt-2">{value}</p>
+    <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">{title}</p>
+    <p className="mt-4 text-4xl font-semibold text-[#123c33]">{value}</p>
+    <p className="muted-copy mt-3 text-sm">Open workspace</p>
   </div>
 );
 

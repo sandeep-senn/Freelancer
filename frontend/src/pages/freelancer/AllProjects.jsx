@@ -1,156 +1,135 @@
-import { useEffect, useState, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
-import api from '../../services/api'
-import AppLoader from '../../components/AppLoader'
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api from '../../services/api';
+import AppLoader from '../../components/AppLoader';
 
 const AllProjects = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [projects, setProjects] = useState([]);
+  const [skills, setSkills] = useState([]);
+  const [filters, setFilters] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const [projects, setProjects] = useState([])
-  const [skills, setSkills] = useState([])
-  const [filters, setFilters] = useState([])
-  const [loading, setLoading] = useState(true)
-
-  // ---------------- FETCH PROJECTS ----------------
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const { data } = await api.get('/project')
-        setProjects(data)
-
-        // unique skills (safe)
-        const uniqueSkills = [
-          ...new Set(
-            data.flatMap(project => project.skills || [])
-          )
-        ]
-        setSkills(uniqueSkills)
+        const { data } = await api.get('/project');
+        setProjects(data);
+        setSkills([...new Set(data.flatMap((project) => project.skills || []))]);
       } catch (err) {
-        console.error(err)
+        console.error(err);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchProjects()
-  }, [])
+    fetchProjects();
+  }, []);
 
-  // ---------------- DERIVED PROJECT LIST ----------------
   const displayProjects = useMemo(() => {
-    let filtered = projects
+    let filtered = projects;
 
     if (filters.length > 0) {
-      filtered = projects.filter(project =>
-        filters.every(skill =>
-          project.skills?.includes(skill)
-        )
-      )
+      filtered = projects.filter((project) => filters.every((skill) => project.skills?.includes(skill)));
     }
 
-    return [...filtered].reverse()
-  }, [projects, filters])
+    return [...filtered].reverse();
+  }, [projects, filters]);
 
-  // ---------------- FILTER TOGGLE ----------------
   const toggleSkill = (skill) => {
-    setFilters(prev =>
-      prev.includes(skill)
-        ? prev.filter(s => s !== skill)
-        : [...prev, skill]
-    )
-  }
+    setFilters((previousFilters) =>
+      previousFilters.includes(skill)
+        ? previousFilters.filter((currentSkill) => currentSkill !== skill)
+        : [...previousFilters, skill]
+    );
+  };
 
   if (loading) {
-    return <AppLoader label="Loading projects..." />
+    return <AppLoader label="Loading projects..." />;
   }
 
   return (
-    <div className="flex gap-6 p-6 max-w-7xl mx-auto">
-
-      {/* FILTERS */}
-      <aside className="w-64 bg-white p-4 rounded-xl shadow">
-        <h3 className="font-semibold mb-3">Filters</h3>
-
-        <h5 className="text-sm font-medium mb-2">Skills</h5>
-        {skills.map(skill => (
-          <label key={skill} className="block text-sm mb-1">
-            <input
-              type="checkbox"
-              className="mr-2"
-              checked={filters.includes(skill)}
-              onChange={() => toggleSkill(skill)}
-            />
-            {skill}
-          </label>
-        ))}
+    <div className="mx-auto flex max-w-7xl gap-6 px-4 py-6">
+      <aside className="panel hidden w-72 rounded-[30px] p-5 lg:block">
+        <span className="eyebrow">Project Filters</span>
+        <h3 className="mt-4 text-2xl font-semibold text-[#123c33]">Find the right fit</h3>
+        <div className="mt-5 flex flex-wrap gap-2">
+          {skills.map((skill) => (
+            <button
+              key={skill}
+              type="button"
+              onClick={() => toggleSkill(skill)}
+              className={`rounded-full px-3 py-2 text-sm font-medium ${
+                filters.includes(skill)
+                  ? 'brand-button'
+                  : 'ghost-button'
+              }`}
+            >
+              {skill}
+            </button>
+          ))}
+        </div>
       </aside>
 
-      {/* PROJECTS */}
-      <main className="flex-1 space-y-4">
-        <h2 className="text-xl font-semibold mb-2">
-          All Projects
-        </h2>
-
-        {displayProjects.map(project => {
-          const bidsCount = project.bids?.length || 0
-
-          const avgBid =
-            project.bidAmounts?.length > 0
-              ? (
-                  project.bidAmounts.reduce((a, b) => a + b, 0) /
-                  project.bidAmounts.length
-                ).toFixed(0)
-              : 0
-
-          return (
-            <div
-              key={project._id}
-              onClick={() => navigate(`/project/${project._id}`)}
-              className="bg-white p-5 rounded-xl shadow cursor-pointer hover:shadow-lg transition"
-            >
-              <div className="flex justify-between mb-2">
-                <h3 className="text-lg font-semibold">
-                  {project.title}
-                </h3>
-                <span className="text-sm text-gray-500">
-                  {new Date(project.postedDate).toLocaleDateString()}
-                </span>
-              </div>
-
-              <p className="text-gray-600 mb-2">
-                {project.description}
-              </p>
-
-              <p className="font-medium mb-2">
-                Budget: ₹{project.budget}
-              </p>
-
-              <div className="flex flex-wrap gap-2 mb-2">
-                {(project.skills || []).map(skill => (
-                  <span
-                    key={skill}
-                    className="bg-gray-100 px-2 py-1 rounded text-sm"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-
-              <div className="flex justify-between text-sm text-gray-700">
-                <span>{bidsCount} bids</span>
-                <span>Avg bid: ₹{avgBid}</span>
-              </div>
-            </div>
-          )
-        })}
-
-        {displayProjects.length === 0 && (
-          <p className="text-gray-500 text-center">
-            No projects found
+      <main className="flex-1">
+        <div className="panel rounded-[32px] p-6 md:p-8">
+          <span className="eyebrow">All Projects</span>
+          <h2 className="mt-4 text-4xl font-semibold text-[#123c33]">Explore opportunities with clearer scope.</h2>
+          <p className="muted-copy mt-3 max-w-3xl">
+            Browse verified projects, filter by skill, and focus on work that matches your strengths.
           </p>
-        )}
+        </div>
+
+        <div className="mt-6 grid gap-5 xl:grid-cols-2">
+          {displayProjects.map((project) => {
+            const bidsCount = project.bids?.length || 0;
+            const avgBid =
+              project.bidAmounts?.length > 0
+                ? (project.bidAmounts.reduce((a, b) => a + b, 0) / project.bidAmounts.length).toFixed(0)
+                : 0;
+
+            return (
+              <div
+                key={project._id}
+                onClick={() => navigate(`/project/${project._id}`)}
+                className="panel stat-card cursor-pointer rounded-[28px] p-6 transition hover:-translate-y-1"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">Opportunity</p>
+                    <h3 className="mt-2 text-2xl font-semibold text-[#123c33]">{project.title}</h3>
+                  </div>
+                  <span className={`status-pill ${String(project.status).toLowerCase()}`}>{project.status}</span>
+                </div>
+
+                <p className="muted-copy mt-4 leading-7">{project.description}</p>
+
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {(project.skills || []).map((skill) => (
+                    <span key={skill} className="metric-chip">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-5 flex items-center justify-between border-t border-[#123c33]/10 pt-4 text-sm">
+                  <span className="font-sans font-semibold text-[#123c33]">Budget: Rs {project.budget}</span>
+                  <span className="muted-copy">{bidsCount} bids • Avg Rs {avgBid}</span>
+                </div>
+              </div>
+            );
+          })}
+
+          {displayProjects.length === 0 && (
+            <div className="panel col-span-full rounded-[28px] p-10 text-center">
+              <p className="text-2xl font-semibold text-[#123c33]">No matching projects</p>
+              <p className="muted-copy mt-3">Try clearing your filters to explore more opportunities.</p>
+            </div>
+          )}
+        </div>
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default AllProjects
+export default AllProjects;

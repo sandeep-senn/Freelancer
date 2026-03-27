@@ -21,11 +21,7 @@ const Admin = () => {
       ]);
 
       setProjectsCount(projectsRes.data.length);
-
-      setCompletedCount(
-        projectsRes.data.filter((p) => p.status === "Completed").length
-      );
-
+      setCompletedCount(projectsRes.data.filter((project) => project.status === "Completed").length);
       setApplicationsCount(applicationsRes.data.length);
       setUsersCount(usersRes.data.length);
     } catch (err) {
@@ -47,10 +43,19 @@ const Admin = () => {
   }
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-semibold mb-6">Admin Dashboard</h2>
+    <div className="mx-auto max-w-6xl px-4 py-6">
+      <div className="panel rounded-[32px] p-6 md:p-8">
+        <span className="eyebrow">Admin Overview</span>
+        <h2 className="mt-4 text-4xl font-semibold text-[#123c33]">
+          Monitor platform health at a glance.
+        </h2>
+        <p className="muted-copy mt-3 max-w-2xl">
+          Track the marketplace supply, review completion velocity, and stay ahead of platform
+          activity from one executive dashboard.
+        </p>
+      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="dashboard-grid mt-6">
         <StatCard
           title="All Projects"
           value={projectsCount}
@@ -66,11 +71,7 @@ const Admin = () => {
           value={applicationsCount}
           onClick={() => navigate("/admin-applications")}
         />
-        <StatCard
-          title="Users"
-          value={usersCount}
-          onClick={() => navigate("/all-users")}
-        />
+        <StatCard title="Users" value={usersCount} onClick={() => navigate("/all-users")} />
       </div>
     </div>
   );
@@ -79,10 +80,11 @@ const Admin = () => {
 const StatCard = ({ title, value, onClick }) => (
   <div
     onClick={onClick}
-    className="bg-white p-6 rounded-xl shadow cursor-pointer hover:shadow-lg transition"
+    className="panel stat-card cursor-pointer rounded-[28px] p-6 transition hover:-translate-y-1"
   >
-    <h4 className="text-gray-600">{title}</h4>
-    <p className="text-3xl font-bold mt-2">{value}</p>
+    <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">{title}</p>
+    <p className="mt-4 text-4xl font-semibold text-[#123c33]">{value}</p>
+    <p className="muted-copy mt-3 text-sm">Review details</p>
   </div>
 );
 

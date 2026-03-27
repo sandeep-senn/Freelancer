@@ -64,72 +64,90 @@ const ProjectApplications = () => {
   }
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-semibold">Applications</h2>
+    <div className="mx-auto max-w-6xl px-4 py-6">
+      <div className="panel rounded-[32px] p-6 md:p-8">
+        <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+          <div>
+            <span className="eyebrow">Applications Review</span>
+            <h2 className="mt-4 text-4xl font-semibold text-[#123c33]">Compare proposals with better clarity.</h2>
+            <p className="muted-copy mt-3 max-w-2xl">
+              Filter by project, review fit, and move faster when it is time to approve the right freelancer.
+            </p>
+          </div>
 
-        <select
-          onChange={(event) => handleFilterChange(event.target.value)}
-          className="border px-3 py-2 rounded-lg"
-        >
-          <option value="">All Projects</option>
-          {projectTitles.map((title) => (
-            <option key={title} value={title}>
-              {title}
-            </option>
-          ))}
-        </select>
+          <select
+            onChange={(event) => handleFilterChange(event.target.value)}
+            className="rounded-full border border-[#123c33]/12 bg-white/80 px-4 py-3 font-sans text-sm text-[#123c33]"
+          >
+            <option value="">All Projects</option>
+            {projectTitles.map((title) => (
+              <option key={title} value={title}>
+                {title}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
-      <div className="space-y-6">
+      <div className="mt-6 space-y-5">
         {displayApplications.map((app) => (
-          <div key={app._id} className="bg-white p-5 rounded-xl shadow">
-            <div className="grid md:grid-cols-2 gap-6">
+          <div key={app._id} className="panel rounded-[30px] p-6">
+            <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
               <div>
-                <h3 className="font-semibold text-lg">{app.title}</h3>
-                <p className="text-gray-600">{app.description}</p>
-                <p className="mt-2 font-medium">Budget: Rs {app.budget}</p>
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">Project</p>
+                    <h3 className="mt-2 text-2xl font-semibold text-[#123c33]">{app.title}</h3>
+                  </div>
+                  <span className={`status-pill ${String(app.status).toLowerCase()}`}>
+                    {app.status}
+                  </span>
+                </div>
 
-                <div className="flex gap-2 mt-2 flex-wrap">
+                <p className="muted-copy mt-4 leading-7">{app.description}</p>
+                <p className="mt-4 font-sans font-semibold text-[#123c33]">Budget: Rs {app.budget}</p>
+
+                <div className="mt-4 flex gap-2 flex-wrap">
                   {app.requiredSkills.map((skill) => (
-                    <span key={skill} className="bg-gray-100 px-2 py-1 rounded text-sm">
+                    <span key={skill} className="metric-chip">
                       {skill}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div>
-                <h4 className="font-medium">Proposal</h4>
-                <p className="text-gray-600">{app.proposal}</p>
-                <p className="mt-2">Proposed: Rs {app.bidAmount}</p>
+              <div className="rounded-[26px] border border-[#123c33]/10 bg-white/68 p-5">
+                <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">Freelancer Proposal</p>
+                <p className="muted-copy mt-4 leading-7">{app.proposal || 'No proposal added.'}</p>
 
-                <div className="flex gap-2 mt-2 flex-wrap">
+                <div className="mt-4 flex flex-wrap gap-2">
                   {app.freelancerSkills.map((skill) => (
-                    <span key={skill} className="bg-blue-100 px-2 py-1 rounded text-sm">
+                    <span key={skill} className="rounded-full bg-[#f6e7d2] px-3 py-1 text-sm font-medium text-[#8b5818]">
                       {skill}
                     </span>
                   ))}
                 </div>
 
-                <div className="mt-4">
+                <p className="mt-5 font-sans font-semibold text-[#123c33]">Proposed: Rs {app.bidAmount}</p>
+
+                <div className="mt-5">
                   {app.status === 'Pending' ? (
                     <div className="flex gap-3">
                       <button
                         onClick={() => handleApprove(app._id)}
-                        className="bg-green-600 text-white px-4 py-1 rounded"
+                        className="brand-button rounded-full px-5 py-2.5 text-sm font-semibold"
                       >
                         Approve
                       </button>
                       <button
                         onClick={() => handleReject(app._id)}
-                        className="bg-red-600 text-white px-4 py-1 rounded"
+                        className="rounded-full border border-red-200 px-5 py-2.5 text-sm font-semibold text-red-700 hover:bg-red-50"
                       >
                         Reject
                       </button>
                     </div>
                   ) : (
-                    <span className="font-semibold">Status: {app.status}</span>
+                    <p className="muted-copy text-sm">Decision already recorded for this application.</p>
                   )}
                 </div>
               </div>
@@ -138,7 +156,10 @@ const ProjectApplications = () => {
         ))}
 
         {displayApplications.length === 0 && (
-          <p className="text-center text-gray-500">No applications found</p>
+          <div className="panel rounded-[28px] p-10 text-center">
+            <p className="text-2xl font-semibold text-[#123c33]">No applications found</p>
+            <p className="muted-copy mt-3">Applications will appear here once freelancers start applying.</p>
+          </div>
         )}
       </div>
     </div>

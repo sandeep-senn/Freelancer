@@ -34,17 +34,27 @@ const Navbar = () => {
   const links = navLinks[user.usertype] || [];
 
   return (
-    <div className="w-full flex justify-center mt-4 px-4">
-      <nav className="bg-white shadow-md rounded-full w-full max-w-6xl px-6 py-3">
+    <div className="w-full flex justify-center px-4 pt-4">
+      <nav className="panel w-full max-w-6xl rounded-[28px] px-4 py-4 md:px-6">
         <div className="flex items-center justify-between">
-          <h3
+          <button
             onClick={() => navigate(`/${user.usertype}`)}
-            className="text-lg font-semibold text-blue-600 cursor-pointer"
+            className="flex items-center gap-3 text-left"
           >
-            SB Works {user.usertype === 'admin' && '(Admin)'}
-          </h3>
+            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#123c33] text-sm font-semibold text-white shadow-lg shadow-emerald-950/20">
+              SB
+            </span>
+            <span>
+              <span className="block font-sans text-[0.7rem] uppercase tracking-[0.28em] text-[#7a867d]">
+                Workspace
+              </span>
+              <span className="block text-lg font-semibold text-[#123c33]">
+                SB Works {user.usertype === 'admin' && '(Admin)'}
+              </span>
+            </span>
+          </button>
 
-          <div className="hidden md:flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-2 rounded-full border border-[#123c33]/8 bg-white/60 p-1.5">
             {links.map((item) => {
               const isActive = location.pathname === item.path;
               return (
@@ -53,8 +63,8 @@ const Navbar = () => {
                   onClick={() => navigate(item.path)}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition ${
                     isActive
-                      ? 'bg-blue-600 text-white shadow'
-                      : 'text-gray-600 hover:bg-blue-50 hover:text-blue-600'
+                      ? 'brand-button'
+                      : 'text-[#56645c] hover:bg-[#123c33]/6 hover:text-[#123c33]'
                   }`}
                 >
                   {item.label}
@@ -64,14 +74,14 @@ const Navbar = () => {
 
             <button
               onClick={logout}
-              className="ml-2 px-4 py-2 rounded-full text-sm font-medium text-red-600 hover:bg-red-50 transition"
+              className="ml-2 rounded-full border border-red-200 px-4 py-2 text-sm font-medium text-red-700 transition hover:bg-red-50"
             >
               Logout
             </button>
           </div>
 
           <button
-            className="md:hidden text-gray-600"
+            className="rounded-2xl border border-[#123c33]/10 bg-white/70 p-2 text-[#123c33] md:hidden"
             onClick={() => setOpen((prevOpen) => !prevOpen)}
           >
             {open ? <X size={22} /> : <Menu size={22} />}
@@ -79,7 +89,7 @@ const Navbar = () => {
         </div>
 
         {open && (
-          <div className="md:hidden mt-4 flex flex-col gap-2">
+          <div className="mt-4 flex flex-col gap-2 border-t border-[#123c33]/10 pt-4 md:hidden">
             {links.map((item) => {
               const isActive = location.pathname === item.path;
               return (
@@ -89,8 +99,10 @@ const Navbar = () => {
                     navigate(item.path);
                     setOpen(false);
                   }}
-                  className={`w-full text-left px-4 py-2 rounded-lg text-sm font-medium ${
-                    isActive ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-blue-50'
+                  className={`w-full rounded-2xl px-4 py-3 text-left text-sm font-medium ${
+                    isActive
+                      ? 'brand-button'
+                      : 'bg-white/70 text-[#56645c] hover:bg-[#123c33]/6 hover:text-[#123c33]'
                   }`}
                 >
                   {item.label}
@@ -100,7 +112,7 @@ const Navbar = () => {
 
             <button
               onClick={logout}
-              className="w-full text-left px-4 py-2 rounded-lg text-red-600 hover:bg-red-50"
+              className="w-full rounded-2xl border border-red-200 px-4 py-3 text-left text-red-700 hover:bg-red-50"
             >
               Logout
             </button>

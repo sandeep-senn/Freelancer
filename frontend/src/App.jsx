@@ -21,7 +21,7 @@ import AllUsers from './pages/admin/AllUsers';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen app-shell">
       <ToastContainer
         position="top-right"
         autoClose={3000}

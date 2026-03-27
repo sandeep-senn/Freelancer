@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import api from '../../services/api';
+import AppLoader from '../../components/AppLoader';
 
 const MyApplications = () => {
   const [applications, setApplications] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMyApplications = async () => {
@@ -11,69 +13,75 @@ const MyApplications = () => {
         setApplications([...data].reverse());
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchMyApplications();
   }, []);
 
+  if (loading) {
+    return <AppLoader label="Loading applications..." />;
+  }
+
   return (
-    <div className="p-6 max-w-6xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-6">My Applications</h2>
+    <div className="mx-auto max-w-6xl px-4 py-6">
+      <div className="panel rounded-[32px] p-6 md:p-8">
+        <span className="eyebrow">My Applications</span>
+        <h2 className="mt-4 text-4xl font-semibold text-[#123c33]">Keep track of every proposal you send.</h2>
+        <p className="muted-copy mt-3 max-w-2xl">
+          Review the projects you have applied to, your proposal quality, and where each opportunity currently stands.
+        </p>
+      </div>
 
-      <div className="space-y-6">
+      <div className="mt-6 space-y-5">
         {applications.map((app) => (
-          <div key={app._id} className="bg-white p-6 rounded-xl shadow">
-            <div className="grid md:grid-cols-2 gap-6">
+          <div key={app._id} className="panel rounded-[30px] p-6">
+            <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
               <div>
-                <h3 className="text-lg font-semibold">{app.title}</h3>
-                <p className="text-gray-600">{app.description}</p>
-                <p className="mt-2 font-medium">Budget: Rs {app.budget}</p>
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">Applied Project</p>
+                    <h3 className="mt-2 text-2xl font-semibold text-[#123c33]">{app.title}</h3>
+                  </div>
+                  <span className={`status-pill ${String(app.status).toLowerCase()}`}>{app.status}</span>
+                </div>
 
-                <div className="flex flex-wrap gap-2 mt-2">
+                <p className="muted-copy mt-4 leading-7">{app.description}</p>
+                <p className="mt-4 font-sans font-semibold text-[#123c33]">Budget: Rs {app.budget}</p>
+
+                <div className="mt-4 flex flex-wrap gap-2">
                   {app.requiredSkills.map((skill) => (
-                    <span key={skill} className="bg-gray-100 px-2 py-1 rounded text-sm">
+                    <span key={skill} className="metric-chip">
                       {skill}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div>
-                <h4 className="font-medium">My Proposal</h4>
-                <p className="text-gray-600">{app.proposal}</p>
+              <div className="rounded-[26px] border border-[#123c33]/10 bg-white/68 p-5">
+                <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">Your Proposal</p>
+                <p className="muted-copy mt-4 leading-7">{app.proposal || 'No proposal added.'}</p>
+                <p className="mt-5 font-sans font-semibold text-[#123c33]">Proposed: Rs {app.bidAmount}</p>
 
-                <p className="mt-2">Proposed: Rs {app.bidAmount}</p>
-
-                <div className="flex flex-wrap gap-2 mt-2">
+                <div className="mt-4 flex flex-wrap gap-2">
                   {app.freelancerSkills.map((skill) => (
-                    <span key={skill} className="bg-blue-100 px-2 py-1 rounded text-sm">
+                    <span key={skill} className="rounded-full bg-[#f6e7d2] px-3 py-1 text-sm font-medium text-[#8b5818]">
                       {skill}
                     </span>
                   ))}
                 </div>
-
-                <p className="mt-3 font-semibold">
-                  Status:{' '}
-                  <span
-                    className={
-                      app.status === 'Accepted'
-                        ? 'text-green-600'
-                        : app.status === 'Rejected'
-                          ? 'text-red-600'
-                          : 'text-yellow-600'
-                    }
-                  >
-                    {app.status}
-                  </span>
-                </p>
               </div>
             </div>
           </div>
         ))}
 
         {applications.length === 0 && (
-          <p className="text-center text-gray-500">You have not applied to any projects yet.</p>
+          <div className="panel rounded-[28px] p-10 text-center">
+            <p className="text-2xl font-semibold text-[#123c33]">No applications yet</p>
+            <p className="muted-copy mt-3">Your submitted bids will appear here once you start applying.</p>
+          </div>
         )}
       </div>
     </div>

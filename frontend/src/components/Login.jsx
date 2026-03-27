@@ -16,52 +16,53 @@ const Login = ({ setAuthType }) => {
   };
 
   return (
-    <form
-      onSubmit={handleLogin}
-      className="w-full max-w-md bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-gray-100"
-    >
-      <div className="text-center mb-8">
-        <h2 className="text-2xl font-semibold text-gray-800">Welcome back</h2>
-        <p className="text-sm text-gray-500 mt-1">Sign in to continue to SB Works</p>
-      </div>
+    <form onSubmit={handleLogin} className="panel w-full max-w-lg rounded-[34px] p-8 md:p-10">
+      <span className="eyebrow">Secure Access</span>
+      <h2 className="mt-5 text-4xl font-semibold text-[#123c33]">Welcome back</h2>
+      <p className="muted-copy mt-3 text-base leading-7">
+        Sign in to continue managing projects, conversations, and approvals inside SB Works.
+      </p>
 
-      <div className="mb-5">
-        <label className="block text-sm font-medium text-gray-700 mb-1">Email address</label>
-        <input
-          type="email"
-          placeholder="you@example.com"
-          onChange={(event) => setEmail(event.target.value)}
-          className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-          required
-        />
-      </div>
+      <div className="mt-8 space-y-5">
+        <label className="block">
+          <span className="mb-2 block font-sans text-sm font-medium text-[#123c33]">Email address</span>
+          <input
+            type="email"
+            placeholder="you@example.com"
+            onChange={(event) => setEmail(event.target.value)}
+            className="w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans text-[#123c33] outline-none transition focus:border-[#123c33]/30"
+            required
+          />
+        </label>
 
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-        <input
-          type="password"
-          placeholder="Enter password"
-          onChange={(event) => setPassword(event.target.value)}
-          className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-          required
-        />
+        <label className="block">
+          <span className="mb-2 block font-sans text-sm font-medium text-[#123c33]">Password</span>
+          <input
+            type="password"
+            placeholder="Enter password"
+            onChange={(event) => setPassword(event.target.value)}
+            className="w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans text-[#123c33] outline-none transition focus:border-[#123c33]/30"
+            required
+          />
+        </label>
       </div>
 
       <button
         type="submit"
-        className="w-full bg-blue-600 text-white py-2.5 rounded-xl hover:bg-blue-700 active:scale-[0.98] transition font-medium"
+        className="brand-button mt-8 w-full rounded-full py-3.5 font-sans text-sm font-semibold"
       >
         Sign In
       </button>
 
-      <p className="text-center text-sm text-gray-600 mt-6">
+      <p className="muted-copy mt-6 text-center text-sm">
         Do not have an account?{' '}
-        <span
+        <button
+          type="button"
           onClick={() => setAuthType('register')}
-          className="text-blue-600 cursor-pointer font-medium hover:underline"
+          className="font-semibold text-[#123c33] underline underline-offset-4"
         >
           Create one
-        </span>
+        </button>
       </p>
     </form>
   );
