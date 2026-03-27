@@ -18,12 +18,21 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 const allowedOrigins = (
   process.env.ALLOWED_ORIGINS ||
-  'http://localhost:5173,https://freelancer-lilac-eight.vercel.app'
+  'http://localhost:5173,https://freelancer-lilac-eight.vercel.app,https://freelancer-role.vercel.app'
 )
   .split(',')
   .map((origin) => origin.trim())
   .filter(Boolean);
 const requestCounts = new Map();
+
+const isAllowedVercelPreview = (origin) => {
+  try {
+    const parsedOrigin = new URL(origin);
+    return parsedOrigin.hostname.endsWith('.vercel.app');
+  } catch {
+    return false;
+  }
+};
 
 const securityHeaders = (req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -56,7 +65,7 @@ const corsOptions = {
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
 
-    if (allowedOrigins.includes(origin)) {
+    if (allowedOrigins.includes(origin) || isAllowedVercelPreview(origin)) {
       return callback(null, true);
     } else {
       return callback(new Error(`Not allowed by CORS: ${origin}`));
