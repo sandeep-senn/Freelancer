@@ -1,9 +1,10 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../../services/api';
 import { GeneralContext } from '../../context/general-context';
 import AppLoader from '../../components/AppLoader';
+import { createSocketConnection } from '../../services/socket';
 
 const ProjectData = () => {
   const { id } = useParams();
@@ -18,6 +19,7 @@ const ProjectData = () => {
   const [manualLink, setManualLink] = useState('');
   const [submissionDescription, setSubmissionDescription] = useState('');
   const [loading, setLoading] = useState(true);
+  const socketRef = useRef(null);
 
   const fetchProject = useCallback(async () => {
     try {
@@ -48,6 +50,43 @@ const ProjectData = () => {
 
     loadProjectData();
   }, [fetchChat, fetchProject, id]);
+
+  useEffect(() => {
+    if (!project || !user?._id) {
+      return undefined;
+    }
+
+    const hasChatAccess =
+      String(project.freelancerId || '') === user._id || String(project.clientId) === user._id;
+
+    if (!hasChatAccess) {
+      return undefined;
+    }
+
+    const socket = createSocketConnection();
+    if (!socket) {
+      return undefined;
+    }
+
+    socketRef.current = socket;
+
+    socket.on('connect', () => {
+      socket.emit('join-project-chat', { projectId: id });
+    });
+    socket.on('chat-history', (payload) => setChat(payload));
+    socket.on('chat-updated', (payload) => setChat(payload));
+    socket.on('chat-error', (payload) => {
+      if (payload?.message) {
+        toast.error(payload.message);
+      }
+    });
+
+    return () => {
+      socket.removeAllListeners();
+      socket.disconnect();
+      socketRef.current = null;
+    };
+  }, [id, project, user?._id]);
 
   const handleBid = async () => {
     try {
@@ -93,9 +132,14 @@ const ProjectData = () => {
     if (!message.trim()) return;
 
     try {
-      await api.post(`/chat/project/${id}/message`, { text: message });
+      if (socketRef.current?.connected) {
+        socketRef.current.emit('send-project-message', { projectId: id, text: message });
+      } else {
+        await api.post(`/chat/project/${id}/message`, { text: message });
+        fetchChat();
+      }
+
       setMessage('');
-      fetchChat();
     } catch (error) {
       toast.error(error.response?.data?.message || 'Message failed');
     }

@@ -10,6 +10,7 @@ const NewProject = () => {
   const [description, setDescription] = useState('');
   const [budget, setBudget] = useState('');
   const [skills, setSkills] = useState('');
+  const [improvingDescription, setImprovingDescription] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (event) => {
@@ -36,6 +37,30 @@ const NewProject = () => {
       toast.error(error.response?.data?.message || 'Project creation failed');
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleImproveDescription = async () => {
+    if (!description.trim()) {
+      toast.warning('Add a draft description before using AI');
+      return;
+    }
+
+    try {
+      setImprovingDescription(true);
+      const { data } = await api.post('/ai/project-description', {
+        title,
+        description,
+        skills,
+        budget
+      });
+
+      setDescription(data.improvedDescription || description);
+      toast.success('Project description improved');
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Unable to improve description');
+    } finally {
+      setImprovingDescription(false);
     }
   };
 
@@ -74,6 +99,21 @@ const NewProject = () => {
               placeholder="Describe deliverables, scope, expectations, and review process."
             />
           </label>
+
+          <div className="rounded-[24px] border border-[#123c33]/10 bg-white/68 p-4">
+            <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">AI Helper</p>
+            <p className="muted-copy mt-2 text-sm leading-6">
+              Turn a rough brief into a clearer, more professional project description before publishing.
+            </p>
+            <button
+              type="button"
+              onClick={handleImproveDescription}
+              disabled={improvingDescription}
+              className="ghost-button mt-4 rounded-full px-5 py-2.5 font-sans text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {improvingDescription ? 'Improving...' : 'Improve Description With AI'}
+            </button>
+          </div>
 
           <div className="grid gap-5 md:grid-cols-2">
             <label className="block">

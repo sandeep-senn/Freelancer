@@ -4,6 +4,8 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
 import authRoutes from './routes/authRoutes.js';
 import freelancerRoutes from './routes/freelancerRoutes.js';
 import projectRoutes from './routes/projectRoutes.js';
@@ -11,8 +13,10 @@ import applicationRoutes from './routes/applicationRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import chatRoutes from './routes/chatRoutes.js';
 import aiRoutes from './routes/aiRoutes.js';
+import { registerSocketServer } from './SocketHandler.js';
 
 const app = express();
+const server = createServer(app);
 app.use(express.json());
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
@@ -82,6 +86,12 @@ app.options("*", cors(corsOptions));
 app.use('/auth', createRateLimiter({ windowMs: 1000 * 60 * 15, maxRequests: 40 }));
 app.use('/ai', createRateLimiter({ windowMs: 1000 * 60 * 5, maxRequests: 20 }));
 
+const io = new Server(server, {
+  cors: corsOptions
+});
+
+registerSocketServer(io);
+
 
 // Attach Routes
 app.use('/auth', authRoutes);
@@ -95,5 +105,5 @@ app.use('/ai', aiRoutes);
 const PORT = process.env.PORT || 6001;
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 }).catch((err) => console.log(`DB connection error: ${err}`));

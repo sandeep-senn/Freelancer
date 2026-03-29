@@ -41,6 +41,14 @@ textarea {
   font-family: Inter, "Segoe UI", sans-serif;
 }
 
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
 .app-shell {
   position: relative;
   background:

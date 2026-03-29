@@ -1,16 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../../services/api';
 import AppLoader from '../../components/AppLoader';
+import { GeneralContext } from '../../context/general-context';
 
 const Freelancer = () => {
   const navigate = useNavigate();
+  const { user } = useContext(GeneralContext);
   const [freelancer, setFreelancer] = useState(null);
   const [applicationsCount] = useState(0);
   const [editOpen, setEditOpen] = useState(false);
   const [editSkills, setEditSkills] = useState('');
   const [editDescription, setEditDescription] = useState('');
+  const [aiExperience, setAiExperience] = useState('');
+  const [generatingDescription, setGeneratingDescription] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const loadFreelancer = async () => {
@@ -47,6 +51,34 @@ const Freelancer = () => {
     } catch (error) {
       console.error(error);
       toast.error(error.response?.data?.message || 'Update failed');
+    }
+  };
+
+  const generateDescription = async () => {
+    const skillList = editSkills
+      .split(',')
+      .map((skill) => skill.trim())
+      .filter(Boolean);
+
+    if (skillList.length === 0) {
+      toast.warning('Add at least one skill before generating a description');
+      return;
+    }
+
+    try {
+      setGeneratingDescription(true);
+      const { data } = await api.post('/ai/freelancer-description', {
+        role: 'Freelancer',
+        skills: skillList.join(', '),
+        experience: aiExperience
+      });
+
+      setEditDescription(data.description || '');
+      toast.success('AI description generated');
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Unable to generate description');
+    } finally {
+      setGeneratingDescription(false);
     }
   };
 
@@ -148,6 +180,18 @@ const Freelancer = () => {
               />
             </div>
 
+            <div className="mb-3">
+              <label className="mb-2 block font-sans text-sm font-medium text-[#123c33]">
+                Experience
+              </label>
+              <input
+                value={aiExperience}
+                onChange={(event) => setAiExperience(event.target.value)}
+                className="w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans"
+                placeholder="e.g. 3 years in React and Node.js"
+              />
+            </div>
+
             <div className="mb-4">
               <label className="mb-2 block font-sans text-sm font-medium text-[#123c33]">
                 Description
@@ -158,6 +202,21 @@ const Freelancer = () => {
                 className="w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans"
                 rows="4"
               />
+            </div>
+
+            <div className="mb-5 rounded-[24px] border border-[#123c33]/10 bg-white/68 p-4">
+              <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">AI Helper</p>
+              <p className="muted-copy mt-2 text-sm leading-6">
+                Generate a sharper profile summary for {user?.username || 'your account'} using your
+                listed skills and experience.
+              </p>
+              <button
+                onClick={generateDescription}
+                disabled={generatingDescription}
+                className="ghost-button mt-4 rounded-full px-5 py-2.5 font-sans text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {generatingDescription ? 'Generating...' : 'Generate With AI'}
+              </button>
             </div>
 
             <div className="flex gap-3">
