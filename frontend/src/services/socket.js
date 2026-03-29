@@ -25,6 +25,8 @@ export const createSocketConnection = () => {
     auth: {
       token: storedAuth.token
     },
-    transports: ['websocket', 'polling']
+    reconnection: true,
+    reconnectionAttempts: 5,
+    timeout: 10000
   });
 };

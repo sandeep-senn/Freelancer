@@ -73,6 +73,9 @@ const ProjectData = () => {
     socket.on('connect', () => {
       socket.emit('join-project-chat', { projectId: id });
     });
+    socket.on('connect_error', () => {
+      fetchChat();
+    });
     socket.on('chat-history', (payload) => setChat(payload));
     socket.on('chat-updated', (payload) => setChat(payload));
     socket.on('chat-error', (payload) => {
@@ -86,7 +89,7 @@ const ProjectData = () => {
       socket.disconnect();
       socketRef.current = null;
     };
-  }, [id, project, user?._id]);
+  }, [fetchChat, id, project, user?._id]);
 
   const handleBid = async () => {
     try {

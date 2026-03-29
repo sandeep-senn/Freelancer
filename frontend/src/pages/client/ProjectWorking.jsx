@@ -60,6 +60,9 @@ const ProjectWorking = () => {
     socket.on('connect', () => {
       socket.emit('join-project-chat', { projectId: id });
     });
+    socket.on('connect_error', () => {
+      fetchChat();
+    });
     socket.on('chat-history', (payload) => setChat(payload));
     socket.on('chat-updated', (payload) => setChat(payload));
     socket.on('chat-error', (payload) => {
@@ -73,7 +76,7 @@ const ProjectWorking = () => {
       socket.disconnect();
       socketRef.current = null;
     };
-  }, [id, project?.freelancerId, user?._id]);
+  }, [fetchChat, id, project?.freelancerId, user?._id]);
 
   const handleApproveSubmission = async () => {
     try {
