@@ -79,7 +79,6 @@ const Register = ({ setAuthType }) => {
             <option value="">Select user type</option>
             <option value="freelancer">Freelancer</option>
             <option value="client">Client</option>
-            <option value="admin">Admin</option>
           </select>
         </label>
       </div>
