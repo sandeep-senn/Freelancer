@@ -296,7 +296,7 @@ const ProjectData = () => {
                 chat.messages.map((msg) => (
                   <div
                     key={`${msg.timestamp}-${msg.senderId}`}
-                    className={`max-w-lg rounded-[22px] px-4 py-3 font-sans text-sm leading-6 ${
+                    className={`w-fit max-w-lg rounded-[22px] px-4 py-3 font-sans text-sm leading-6 ${
                       String(msg.senderId) === user?._id
                         ? 'ml-auto bg-[#123c33] text-white'
                         : 'bg-[#f3ede2] text-[#123c33]'
