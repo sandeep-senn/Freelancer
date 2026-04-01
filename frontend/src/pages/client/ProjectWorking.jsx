@@ -200,7 +200,7 @@ const ProjectWorking = () => {
         </div>
       )}
 
-      <div className="panel mx-auto w-full max-w-5xl rounded-[30px] p-6">
+      <div className="panel rounded-[30px] p-6">
         <h3 className="text-xl font-semibold text-[#123c33]">Project Chat</h3>
 
         {project.freelancerId ? (
