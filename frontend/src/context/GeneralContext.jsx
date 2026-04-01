@@ -7,6 +7,7 @@ import { clearStoredAuth, loadStoredAuth, saveStoredAuth } from '../utils/auth';
 const GeneralContextProvider = ({ children }) => {
   const navigate = useNavigate();
   const [authReady, setAuthReady] = useState(false);
+  const [authLoading, setAuthLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [token, setToken] = useState('');
 
@@ -61,21 +62,33 @@ const GeneralContextProvider = ({ children }) => {
   };
 
   const login = async () => {
-    const { data } = await api.post('/auth/login', { email, password });
-    persistSession(data);
-    navigate(`/${data.user.usertype}`);
+    setAuthLoading(true);
+
+    try {
+      const { data } = await api.post('/auth/login', { email, password });
+      persistSession(data);
+      navigate(`/${data.user.usertype}`);
+    } finally {
+      setAuthLoading(false);
+    }
   };
 
   const register = async () => {
-    const { data } = await api.post('/auth/register', {
-      username,
-      email,
-      password,
-      usertype
-    });
+    setAuthLoading(true);
 
-    persistSession(data);
-    navigate(`/${data.user.usertype}`);
+    try {
+      const { data } = await api.post('/auth/register', {
+        username,
+        email,
+        password,
+        usertype
+      });
+
+      persistSession(data);
+      navigate(`/${data.user.usertype}`);
+    } finally {
+      setAuthLoading(false);
+    }
   };
 
   const logout = () => {
@@ -89,6 +102,7 @@ const GeneralContextProvider = ({ children }) => {
     <GeneralContext.Provider
       value={{
         authReady,
+        authLoading,
         user,
         token,
         login,

@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { GeneralContext } from '../context/general-context';
 
 const Login = ({ setAuthType }) => {
-  const { setEmail, setPassword, login } = useContext(GeneralContext);
+  const { setEmail, setPassword, login, authLoading } = useContext(GeneralContext);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async (event) => {
@@ -32,6 +32,7 @@ const Login = ({ setAuthType }) => {
             type="email"
             placeholder="you@example.com"
             onChange={(event) => setEmail(event.target.value)}
+            disabled={authLoading}
             className="w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans text-[#123c33] outline-none transition focus:border-[#123c33]/30"
             required
           />
@@ -44,12 +45,14 @@ const Login = ({ setAuthType }) => {
               type={showPassword ? 'text' : 'password'}
               placeholder="Enter password"
               onChange={(event) => setPassword(event.target.value)}
+              disabled={authLoading}
               className="w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 pr-12 font-sans text-[#123c33] outline-none transition focus:border-[#123c33]/30"
               required
             />
             <button
               type="button"
               onClick={() => setShowPassword((value) => !value)}
+              disabled={authLoading}
               className="absolute inset-y-0 right-0 flex items-center px-4 text-[#5f6d63]"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
@@ -61,16 +64,29 @@ const Login = ({ setAuthType }) => {
 
       <button
         type="submit"
-        className="brand-button mt-8 w-full rounded-full py-3.5 font-sans text-sm font-semibold"
+        disabled={authLoading}
+        className="brand-button mt-8 flex w-full items-center justify-center gap-3 rounded-full py-3.5 font-sans text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-80"
       >
-        Sign In
+        {authLoading ? (
+          <>
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+            Signing in...
+          </>
+        ) : (
+          'Sign In'
+        )}
       </button>
+
+      {authLoading && (
+        <p className="mt-3 text-center text-sm text-[#4f5d54]">Logging you in, please wait...</p>
+      )}
 
       <p className="muted-copy mt-6 text-center text-sm">
         Do not have an account?{' '}
         <button
           type="button"
           onClick={() => setAuthType('register')}
+          disabled={authLoading}
           className="font-semibold text-[#123c33] underline underline-offset-4"
         >
           Create one

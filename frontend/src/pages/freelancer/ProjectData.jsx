@@ -148,6 +148,13 @@ const ProjectData = () => {
     }
   };
 
+  const handleMessageKeyDown = (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      handleMessageSend();
+    }
+  };
+
   if (loading || !project) {
     return <AppLoader label="Loading project..." />;
   }
@@ -275,12 +282,16 @@ const ProjectData = () => {
         </div>
       )}
 
-      <div className="panel rounded-[30px] p-6">
+      <div className="panel mx-auto w-full max-w-5xl rounded-[30px] p-6">
         <h3 className="text-xl font-semibold text-[#123c33]">Project Chat</h3>
 
         {canChat ? (
           <>
-            <div className="mt-5 space-y-3 rounded-[28px] border border-[#123c33]/10 bg-white/68 p-4">
+            <div className="mt-2 max-w-3xl text-sm text-[#5f6d63]">
+              Press Enter to send your message.
+            </div>
+
+            <div className="mt-5 max-w-4xl space-y-3 rounded-[28px] border border-[#123c33]/10 bg-white/68 p-4">
               {chat.messages?.length ? (
                 chat.messages.map((msg) => (
                   <div
@@ -299,10 +310,11 @@ const ProjectData = () => {
               )}
             </div>
 
-            <div className="mt-4 flex gap-3">
+            <div className="mt-4 flex max-w-3xl gap-3">
               <input
                 value={message}
                 onChange={(event) => setMessage(event.target.value)}
+                onKeyDown={handleMessageKeyDown}
                 className="flex-1 rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans"
                 placeholder="Write a project message..."
               />

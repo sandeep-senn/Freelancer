@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { GeneralContext } from '../context/general-context';
 
 const Register = ({ setAuthType }) => {
-  const { setUsername, setEmail, setPassword, setUsertype, register } = useContext(GeneralContext);
+  const { setUsername, setEmail, setPassword, setUsertype, register, authLoading } = useContext(GeneralContext);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleRegister = async (event) => {
@@ -32,6 +32,7 @@ const Register = ({ setAuthType }) => {
             type="text"
             placeholder="Your professional name"
             onChange={(event) => setUsername(event.target.value)}
+            disabled={authLoading}
             className="w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans text-[#123c33] outline-none transition focus:border-[#123c33]/30"
             required
           />
@@ -43,6 +44,7 @@ const Register = ({ setAuthType }) => {
             type="email"
             placeholder="name@example.com"
             onChange={(event) => setEmail(event.target.value)}
+            disabled={authLoading}
             className="w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans text-[#123c33] outline-none transition focus:border-[#123c33]/30"
             required
           />
@@ -55,12 +57,14 @@ const Register = ({ setAuthType }) => {
               type={showPassword ? 'text' : 'password'}
               placeholder="At least 8 characters"
               onChange={(event) => setPassword(event.target.value)}
+              disabled={authLoading}
               className="w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 pr-12 font-sans text-[#123c33] outline-none transition focus:border-[#123c33]/30"
               required
             />
             <button
               type="button"
               onClick={() => setShowPassword((value) => !value)}
+              disabled={authLoading}
               className="absolute inset-y-0 right-0 flex items-center px-4 text-[#5f6d63]"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
@@ -73,6 +77,7 @@ const Register = ({ setAuthType }) => {
           <span className="mb-2 block font-sans text-sm font-medium text-[#123c33]">User type</span>
           <select
             onChange={(event) => setUsertype(event.target.value)}
+            disabled={authLoading}
             className="w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans text-[#123c33] outline-none transition focus:border-[#123c33]/30"
             required
           >
@@ -85,16 +90,29 @@ const Register = ({ setAuthType }) => {
 
       <button
         type="submit"
-        className="brand-button mt-8 w-full rounded-full py-3.5 font-sans text-sm font-semibold"
+        disabled={authLoading}
+        className="brand-button mt-8 flex w-full items-center justify-center gap-3 rounded-full py-3.5 font-sans text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-80"
       >
-        Create Account
+        {authLoading ? (
+          <>
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+            Creating account...
+          </>
+        ) : (
+          'Create Account'
+        )}
       </button>
+
+      {authLoading && (
+        <p className="mt-3 text-center text-sm text-[#4f5d54]">Setting up your account, please wait...</p>
+      )}
 
       <p className="muted-copy mt-6 text-center text-sm">
         Already registered?{' '}
         <button
           type="button"
           onClick={() => setAuthType('login')}
+          disabled={authLoading}
           className="font-semibold text-[#123c33] underline underline-offset-4"
         >
           Login
