@@ -66,7 +66,7 @@ Tone: professional, concise, client-friendly (4-5 lines)
 `;
 
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4.1-mini',
+      model: 'gpt-5.1',
       messages: [{ role: 'user', content: prompt }]
     });
 
@@ -100,7 +100,7 @@ Make it clear, structured, and professional.
 `;
 
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4.1-mini',
+      model: 'gpt-5.1',
       messages: [{ role: 'user', content: prompt }]
     });
 
