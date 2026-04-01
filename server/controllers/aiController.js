@@ -1,9 +1,51 @@
 import OpenAI from 'openai';
 
-const getOpenAI = () =>
-  new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
-  });
+const getOpenAI = () => {
+  const apiKey = process.env.OPENAI_API_KEY?.trim();
+
+  if (!apiKey) {
+    const error = new Error('OpenAI API key is missing');
+    error.statusCode = 503;
+    throw error;
+  }
+
+  return new OpenAI({ apiKey });
+};
+
+const getAIErrorResponse = (error, fallbackMessage) => {
+  if (error.statusCode) {
+    return {
+      status: error.statusCode,
+      message: 'AI service is not configured on the server'
+    };
+  }
+
+  if (error.status === 401) {
+    return {
+      status: 502,
+      message: 'AI service authentication failed. Please verify the API key'
+    };
+  }
+
+  if (error.status === 429) {
+    return {
+      status: 429,
+      message: 'AI service limit reached. Please try again in a moment'
+    };
+  }
+
+  if (error.status === 404) {
+    return {
+      status: 502,
+      message: 'Configured AI model is unavailable'
+    };
+  }
+
+  return {
+    status: 500,
+    message: fallbackMessage
+  };
+};
 
 export const generateFreelancerDescription = async (req, res) => {
   try {
@@ -33,7 +75,8 @@ Tone: professional, concise, client-friendly (4-5 lines)
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: 'Unable to generate freelancer description' });
+    const response = getAIErrorResponse(error, 'Unable to generate freelancer description');
+    return res.status(response.status).json({ message: response.message });
   }
 };
 
@@ -66,6 +109,7 @@ Make it clear, structured, and professional.
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: 'Unable to improve project description' });
+    const response = getAIErrorResponse(error, 'Unable to improve project description');
+    return res.status(response.status).json({ message: response.message });
   }
 };
