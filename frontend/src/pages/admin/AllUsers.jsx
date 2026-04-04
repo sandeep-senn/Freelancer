@@ -2,13 +2,19 @@ import { useEffect, useState } from 'react';
 import api from '../../services/api';
 import AppLoader from '../../components/AppLoader';
 
+const ROLE_OPTIONS = ['client', 'freelancer', 'admin'];
+
+// Dummy currentUser for role-based UI (replace with your auth logic)
+const currentUser = JSON.parse(localStorage.getItem('user')) || { usertype: 'admin' };
+
 const AllUsers = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [updatingUser, setUpdatingUser] = useState(null);
+  const [deletingUser, setDeletingUser] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
-
     const loadUsers = async () => {
       try {
         const { data } = await api.get('/user');
@@ -21,13 +27,36 @@ const AllUsers = () => {
         setLoading(false);
       }
     };
-
     loadUsers();
-
-    return () => {
-      isMounted = false;
-    };
+    return () => { isMounted = false; };
   }, []);
+
+  const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this user?')) return;
+    setDeletingUser(id);
+    try {
+      await api.delete(`/user/${id}`);
+      setUsers((prev) => prev.filter((user) => user._id !== id));
+    } catch (err) {
+      alert('Failed to delete user');
+    } finally {
+      setDeletingUser(null);
+    }
+  };
+
+  const handleRoleChange = async (id, newRole) => {
+    setUpdatingUser(id);
+    try {
+      await api.patch(`/user/${id}/role`, { usertype: newRole });
+      setUsers((prev) => prev.map((user) => (
+        user._id === id ? { ...user, usertype: newRole } : user
+      )));
+    } catch (err) {
+      alert('Failed to update role');
+    } finally {
+      setUpdatingUser(null);
+    }
+  };
 
   if (loading) {
     return <AppLoader label="Loading users..." />;
@@ -47,6 +76,7 @@ const AllUsers = () => {
               <th className="px-4 py-4 font-semibold">Username</th>
               <th className="px-4 py-4 font-semibold">Email</th>
               <th className="px-4 py-4 font-semibold">Role</th>
+              {currentUser.usertype === 'admin' && <th className="px-4 py-4 font-semibold">Admin Actions</th>}
             </tr>
           </thead>
           <tbody>
@@ -55,8 +85,34 @@ const AllUsers = () => {
                 <td className="px-4 py-4 font-medium text-[#123c33]">{user.username}</td>
                 <td className="px-4 py-4 text-[#516056]">{user.email}</td>
                 <td className="px-4 py-4">
-                  <span className="metric-chip">{user.usertype}</span>
+                  {/* Show select if admin, otherwise just a span */}
+                  {currentUser.usertype === 'admin' ? (
+                    <select
+                      value={user.usertype}
+                      onChange={(e) => handleRoleChange(user._id, e.target.value)}
+                      disabled={updatingUser === user._id}
+                      className="metric-chip outline-none bg-[#f4f6f5] rounded px-2 py-1"
+                    >
+                      {ROLE_OPTIONS.map((role) => (
+                        <option value={role} key={role}>{role}</option>
+                      ))}
+                    </select>
+                  ) : (
+                    <span className="metric-chip">{user.usertype}</span>
+                  )}
                 </td>
+                {/* Only admins see delete button and role changer */}
+                {currentUser.usertype === 'admin' && (
+                  <td className="px-4 py-4">
+                    <button
+                      onClick={() => handleDelete(user._id)}
+                      disabled={deletingUser === user._id}
+                      className="text-red-600 hover:underline mr-2"
+                    >
+                      {deletingUser === user._id ? 'Deleting...' : 'Delete'}
+                    </button>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
