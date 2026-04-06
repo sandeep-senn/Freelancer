@@ -92,6 +92,20 @@ const io = new Server(server, {
 
 registerSocketServer(io);
 
+app.get('/health', async (req, res) => {
+  try {
+    // Check MongoDB connection
+    const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
+    
+    res.status(200).json({ 
+      message: "All good",
+      database: dbStatus,
+      timestamp: new Date()
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Health check failed" });
+  }
+});
 
 // Attach Routes
 app.use('/auth', authRoutes);
