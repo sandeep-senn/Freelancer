@@ -72,35 +72,35 @@ const NewProject = () => {
     <div className="mx-auto max-w-5xl px-4 py-6">
       <div className="panel rounded-[34px] p-6 md:p-8">
         <span className="eyebrow">Create Project</span>
-        <h2 className="mt-4 text-xl font-semibold text-[#123c33] md:text-2xl">Publish a stronger project brief.</h2>
+        <h2 className="mt-4 text-xl font-semibold text-[#0d1e36] md:text-2xl">Publish a stronger project brief.</h2>
         <p className="muted-copy mt-3 max-w-3xl">
           Define the outcome, budget, and required skills clearly so applications come in with better fit and less noise.
         </p>
 
         <form onSubmit={handleSubmit} className="mt-8 grid gap-5">
           <label className="block">
-            <span className="mb-2 block font-sans text-sm font-medium text-[#123c33]">Project title</span>
+            <span className="mb-2 block font-sans text-sm font-medium text-[#0d1e36]">Project title</span>
             <input
               type="text"
               value={title}
               onChange={(event) => setTitle(event.target.value)}
-              className="w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans"
+              className="w-full rounded-2xl border border-[#0d1e36]/10 bg-white/80 px-4 py-3 font-sans"
               placeholder="Build an internal analytics dashboard"
             />
           </label>
 
           <label className="block">
-            <span className="mb-2 block font-sans text-sm font-medium text-[#123c33]">Description</span>
+            <span className="mb-2 block font-sans text-sm font-medium text-[#0d1e36]">Description</span>
             <textarea
               rows="6"
               value={description}
               onChange={(event) => setDescription(event.target.value)}
-              className="w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans"
+              className="w-full rounded-2xl border border-[#0d1e36]/10 bg-white/80 px-4 py-3 font-sans"
               placeholder="Describe deliverables, scope, expectations, and review process."
             />
           </label>
 
-          <div className="rounded-[24px] border border-[#123c33]/10 bg-white/68 p-4">
+          <div className="rounded-[24px] border border-[#0d1e36]/10 bg-white/68 p-4">
             <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">AI Helper</p>
             <p className="muted-copy mt-2 text-sm leading-6">
               Turn a rough brief into a clearer, more professional project description before publishing.
@@ -117,29 +117,29 @@ const NewProject = () => {
 
           <div className="grid gap-5 md:grid-cols-2">
             <label className="block">
-              <span className="mb-2 block font-sans text-sm font-medium text-[#123c33]">Budget (Rs)</span>
+              <span className="mb-2 block font-sans text-sm font-medium text-[#0d1e36]">Budget (Rs)</span>
               <input
                 type="number"
                 value={budget}
                 onChange={(event) => setBudget(event.target.value)}
-                className="w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans"
+                className="w-full rounded-2xl border border-[#0d1e36]/10 bg-white/80 px-4 py-3 font-sans"
                 placeholder="50000"
               />
             </label>
 
             <label className="block">
-              <span className="mb-2 block font-sans text-sm font-medium text-[#123c33]">Required skills</span>
+              <span className="mb-2 block font-sans text-sm font-medium text-[#0d1e36]">Required skills</span>
               <input
                 type="text"
                 value={skills}
                 onChange={(event) => setSkills(event.target.value)}
-                className="w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans"
+                className="w-full rounded-2xl border border-[#0d1e36]/10 bg-white/80 px-4 py-3 font-sans"
                 placeholder="React, Node, MongoDB"
               />
             </label>
           </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-4 rounded-[28px] border border-[#123c33]/10 bg-white/60 p-5">
+          <div className="flex flex-wrap items-center justify-between gap-4 rounded-[28px] border border-[#0d1e36]/10 bg-white/60 p-5">
             <p className="muted-copy max-w-xl text-sm leading-6">
               Well-scoped projects attract better proposals and make approval much smoother later.
             </p>

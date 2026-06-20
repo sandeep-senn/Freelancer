@@ -69,7 +69,7 @@ const ProjectApplications = () => {
         <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
             <span className="eyebrow">Applications Review</span>
-            <h2 className="mt-4 text-xl font-semibold text-[#123c33] md:text-2xl">Compare proposals with better clarity.</h2>
+            <h2 className="mt-4 text-xl font-semibold text-[#0d1e36] md:text-2xl">Compare proposals with better clarity.</h2>
             <p className="muted-copy mt-3 max-w-2xl">
               Filter by project, review fit, and move faster when it is time to approve the right freelancer.
             </p>
@@ -77,7 +77,7 @@ const ProjectApplications = () => {
 
           <select
             onChange={(event) => handleFilterChange(event.target.value)}
-            className="rounded-full border border-[#123c33]/12 bg-white/80 px-4 py-3 font-sans text-sm text-[#123c33]"
+            className="rounded-full border border-[#0d1e36]/12 bg-white/80 px-4 py-3 font-sans text-sm text-[#0d1e36]"
           >
             <option value="">All Projects</option>
             {projectTitles.map((title) => (
@@ -97,7 +97,7 @@ const ProjectApplications = () => {
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">Project</p>
-                    <h3 className="mt-2 text-xl font-semibold text-[#123c33]">{app.title}</h3>
+                    <h3 className="mt-2 text-xl font-semibold text-[#0d1e36]">{app.title}</h3>
                   </div>
                   <span className={`status-pill ${String(app.status).toLowerCase()}`}>
                     {app.status}
@@ -105,7 +105,7 @@ const ProjectApplications = () => {
                 </div>
 
                 <p className="muted-copy mt-4 leading-7">{app.description}</p>
-                <p className="mt-4 font-sans font-semibold text-[#123c33]">Budget: Rs {app.budget}</p>
+                <p className="mt-4 font-sans font-semibold text-[#0d1e36]">Budget: Rs {app.budget}</p>
 
                 <div className="mt-4 flex gap-2 flex-wrap">
                   {app.requiredSkills.map((skill) => (
@@ -116,7 +116,7 @@ const ProjectApplications = () => {
                 </div>
               </div>
 
-              <div className="rounded-[26px] border border-[#123c33]/10 bg-white/68 p-5">
+              <div className="rounded-[26px] border border-[#0d1e36]/10 bg-white/68 p-5">
                 <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">Freelancer Proposal</p>
                 <p className="muted-copy mt-4 leading-7">{app.proposal || 'No proposal added.'}</p>
 
@@ -128,7 +128,7 @@ const ProjectApplications = () => {
                   ))}
                 </div>
 
-                <p className="mt-5 font-sans font-semibold text-[#123c33]">Proposed: Rs {app.bidAmount}</p>
+                <p className="mt-5 font-sans font-semibold text-[#0d1e36]">Proposed: Rs {app.bidAmount}</p>
 
                 <div className="mt-5">
                   {app.status === 'Pending' ? (
@@ -157,7 +157,7 @@ const ProjectApplications = () => {
 
         {displayApplications.length === 0 && (
           <div className="panel rounded-[28px] p-10 text-center">
-            <p className="text-xl font-semibold text-[#123c33]">No applications found</p>
+            <p className="text-xl font-semibold text-[#0d1e36]">No applications found</p>
             <p className="muted-copy mt-3">Applications will appear here once freelancers start applying.</p>
           </div>
         )}

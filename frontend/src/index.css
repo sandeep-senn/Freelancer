@@ -1,32 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 :root {
   color-scheme: light;
-  --bg: #f4f1ea;
-  --surface: rgba(255, 255, 255, 0.82);
-  --surface-strong: #fffdf8;
-  --surface-border: rgba(25, 40, 34, 0.08);
-  --text: #162218;
-  --muted: #5f6d63;
-  --brand: #123c33;
-  --brand-soft: #dbe8df;
-  --accent: #ba7c32;
-  --accent-soft: #f6e7d2;
-  --success-soft: #dcecdf;
-  --shadow: 0 18px 50px rgba(27, 41, 35, 0.08);
+  --bg: #f8fafc;
+  --surface: rgba(255, 255, 255, 0.85);
+  --surface-strong: #ffffff;
+  --surface-border: rgba(13, 30, 54, 0.08);
+  --text: #0f172a;
+  --muted: #475569;
+  --brand: #0d1e36;
+  --brand-soft: #e2e8f0;
+  --accent: #c5a059;
+  --accent-soft: #fef6e0;
+  --success-soft: #d1fae5;
+  --shadow: 0 20px 40px rgba(13, 30, 54, 0.04);
 }
 
 html {
   background:
-    radial-gradient(circle at top left, rgba(186, 124, 50, 0.18), transparent 30%),
-    radial-gradient(circle at top right, rgba(18, 60, 51, 0.16), transparent 26%),
-    linear-gradient(180deg, #f8f4ec 0%, #f2eee5 100%);
+    radial-gradient(circle at top left, rgba(197, 160, 89, 0.12), transparent 35%),
+    radial-gradient(circle at top right, rgba(13, 30, 54, 0.08), transparent 30%),
+    linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
 }
 
 body {
   min-height: 100vh;
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, sans-serif;
   background: transparent;
 }
 
@@ -38,7 +39,7 @@ button,
 input,
 select,
 textarea {
-  font-family: Inter, "Segoe UI", sans-serif;
+  font-family: 'Plus Jakarta Sans', Inter, "Segoe UI", sans-serif;
 }
 
 button {
@@ -52,9 +53,9 @@ button:disabled {
 .app-shell {
   position: relative;
   background:
-    radial-gradient(circle at 12% 18%, rgba(186, 124, 50, 0.12), transparent 18%),
-    radial-gradient(circle at 88% 10%, rgba(18, 60, 51, 0.1), transparent 20%),
-    linear-gradient(180deg, rgba(255, 252, 246, 0.92) 0%, rgba(244, 241, 234, 0.96) 100%);
+    radial-gradient(circle at 12% 18%, rgba(197, 160, 89, 0.08), transparent 22%),
+    radial-gradient(circle at 88% 10%, rgba(13, 30, 54, 0.05), transparent 25%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.98) 100%);
 }
 
 .panel {
@@ -71,9 +72,9 @@ button:disabled {
   padding: 0.45rem 0.85rem;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.78);
-  border: 1px solid rgba(18, 60, 51, 0.08);
+  border: 1px solid rgba(13, 30, 54, 0.08);
   color: var(--muted);
-  font: 600 0.78rem/1 Inter, "Segoe UI", sans-serif;
+  font: 600 0.78rem/1 'Plus Jakarta Sans', Inter, sans-serif;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -86,22 +87,22 @@ button:disabled {
 
 .muted-copy {
   color: var(--muted);
-  font-family: Inter, "Segoe UI", sans-serif;
+  font-family: 'Plus Jakarta Sans', Inter, sans-serif;
 }
 
 .brand-button {
-  background: linear-gradient(135deg, #123c33 0%, #1a5a4d 100%);
+  background: linear-gradient(135deg, #0d1e36 0%, #1e3a5f 100%);
   color: white;
-  box-shadow: 0 16px 30px rgba(18, 60, 51, 0.18);
+  box-shadow: 0 16px 30px rgba(13, 30, 54, 0.15);
 }
 
 .brand-button:hover {
-  filter: brightness(1.03);
+  filter: brightness(1.05);
 }
 
 .ghost-button {
   background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(18, 60, 51, 0.12);
+  border: 1px solid rgba(13, 30, 54, 0.12);
   color: var(--brand);
 }
 

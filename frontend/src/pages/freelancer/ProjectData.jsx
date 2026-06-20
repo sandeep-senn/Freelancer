@@ -169,7 +169,7 @@ const ProjectData = () => {
         <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
           <div>
             <span className="eyebrow">Project Detail</span>
-            <h2 className="mt-4 text-xl font-semibold text-[#123c33] md:text-2xl">{project.title}</h2>
+            <h2 className="mt-4 text-xl font-semibold text-[#0d1e36] md:text-2xl">{project.title}</h2>
             <p className="muted-copy mt-3 max-w-3xl leading-7">{project.description}</p>
           </div>
           <span className={`status-pill ${String(project.status).toLowerCase()}`}>{project.status}</span>
@@ -183,12 +183,12 @@ const ProjectData = () => {
           ))}
         </div>
 
-        <p className="mt-5 font-sans font-semibold text-[#123c33]">Budget: Rs {project.budget}</p>
+        <p className="mt-5 font-sans font-semibold text-[#0d1e36]">Budget: Rs {project.budget}</p>
       </div>
 
       {project.status === 'Pending' && (
         <div className="panel rounded-[30px] p-6">
-          <h3 className="text-xl font-semibold text-[#123c33]">Send Proposal</h3>
+          <h3 className="text-xl font-semibold text-[#0d1e36]">Send Proposal</h3>
           <p className="muted-copy mt-3 max-w-2xl">
             Position yourself clearly with a focused bid, a realistic timeline, and a concise proposal.
           </p>
@@ -199,14 +199,14 @@ const ProjectData = () => {
               placeholder="Bid amount"
               value={bidAmount}
               onChange={(event) => setBidAmount(event.target.value)}
-              className="rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans"
+              className="rounded-2xl border border-[#0d1e36]/10 bg-white/80 px-4 py-3 font-sans"
             />
             <input
               type="number"
               placeholder="Estimated time (days)"
               value={estimatedTime}
               onChange={(event) => setEstimatedTime(event.target.value)}
-              className="rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans"
+              className="rounded-2xl border border-[#0d1e36]/10 bg-white/80 px-4 py-3 font-sans"
             />
           </div>
 
@@ -214,7 +214,7 @@ const ProjectData = () => {
             placeholder="Explain why you are the right fit for this project."
             value={proposal}
             onChange={(event) => setProposal(event.target.value)}
-            className="mt-4 min-h-36 w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans"
+            className="mt-4 min-h-36 w-full rounded-2xl border border-[#0d1e36]/10 bg-white/80 px-4 py-3 font-sans"
           />
 
           <div className="mt-5">
@@ -233,7 +233,7 @@ const ProjectData = () => {
 
       {String(project.freelancerId || '') === user?._id && (
         <div className="panel rounded-[30px] p-6">
-          <h3 className="text-xl font-semibold text-[#123c33]">Submit Final Delivery</h3>
+          <h3 className="text-xl font-semibold text-[#0d1e36]">Submit Final Delivery</h3>
 
           {project.submissionAccepted ? (
             <p className="mt-4 text-xl font-semibold text-[#245437]">Project completed and approved.</p>
@@ -245,14 +245,14 @@ const ProjectData = () => {
                   placeholder="Project link"
                   value={projectLink}
                   onChange={(event) => setProjectLink(event.target.value)}
-                  className="rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans"
+                  className="rounded-2xl border border-[#0d1e36]/10 bg-white/80 px-4 py-3 font-sans"
                 />
                 <input
                   type="text"
                   placeholder="Documentation or manual link"
                   value={manualLink}
                   onChange={(event) => setManualLink(event.target.value)}
-                  className="rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans"
+                  className="rounded-2xl border border-[#0d1e36]/10 bg-white/80 px-4 py-3 font-sans"
                 />
               </div>
 
@@ -260,7 +260,7 @@ const ProjectData = () => {
                 placeholder="Describe what was delivered, final notes, and any handoff guidance."
                 value={submissionDescription}
                 onChange={(event) => setSubmissionDescription(event.target.value)}
-                className="mt-4 min-h-36 w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans"
+                className="mt-4 min-h-36 w-full rounded-2xl border border-[#0d1e36]/10 bg-white/80 px-4 py-3 font-sans"
               />
 
               <div className="mt-5">
@@ -283,7 +283,7 @@ const ProjectData = () => {
       )}
 
       <div className="panel rounded-[30px] p-6">
-        <h3 className="text-xl font-semibold text-[#123c33]">Project Chat</h3>
+        <h3 className="text-xl font-semibold text-[#0d1e36]">Project Chat</h3>
 
         {canChat ? (
           <>
@@ -291,15 +291,15 @@ const ProjectData = () => {
               Press Enter to send your message.
             </div>
 
-            <div className="mt-5 max-w-4xl space-y-3 rounded-[28px] border border-[#123c33]/10 bg-white/68 p-4">
+            <div className="mt-5 max-w-4xl space-y-3 rounded-[28px] border border-[#0d1e36]/10 bg-white/68 p-4">
               {chat.messages?.length ? (
                 chat.messages.map((msg) => (
                   <div
                     key={`${msg.timestamp}-${msg.senderId}`}
                     className={`w-fit max-w-lg rounded-[22px] px-4 py-3 font-sans text-sm leading-6 ${
                       String(msg.senderId) === user?._id
-                        ? 'ml-auto bg-[#123c33] text-white'
-                        : 'bg-[#f3ede2] text-[#123c33]'
+                        ? 'ml-auto bg-[#0d1e36] text-white'
+                        : 'bg-[#f3ede2] text-[#0d1e36]'
                     }`}
                   >
                     {msg.text}
@@ -315,7 +315,7 @@ const ProjectData = () => {
                 value={message}
                 onChange={(event) => setMessage(event.target.value)}
                 onKeyDown={handleMessageKeyDown}
-                className="flex-1 rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans"
+                className="flex-1 rounded-2xl border border-[#0d1e36]/10 bg-white/80 px-4 py-3 font-sans"
                 placeholder="Write a project message..."
               />
               <button onClick={handleMessageSend} className="brand-button rounded-full px-5 py-3 text-sm font-semibold">

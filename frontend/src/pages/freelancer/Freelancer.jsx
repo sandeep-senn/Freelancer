@@ -92,7 +92,7 @@ const Freelancer = () => {
         <span className="eyebrow">Freelancer Dashboard</span>
         <div className="mt-4 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <h2 className="text-xl font-semibold text-[#123c33] md:text-2xl">
+            <h2 className="text-xl font-semibold text-[#0d1e36] md:text-2xl">
               Run your freelance workflow like a studio.
             </h2>
             <p className="muted-copy mt-3 max-w-2xl">
@@ -129,7 +129,7 @@ const Freelancer = () => {
             <div className="mb-6 flex items-center justify-between gap-4">
               <div>
                 <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">Profile</p>
-                <h3 className="mt-2 text-xl font-semibold text-[#123c33] md:text-2xl">
+                <h3 className="mt-2 text-xl font-semibold text-[#0d1e36] md:text-2xl">
                   Professional Snapshot
                 </h3>
               </div>
@@ -142,16 +142,16 @@ const Freelancer = () => {
             </div>
 
             <div className="grid gap-5 md:grid-cols-[1.1fr_0.9fr]">
-              <div className="rounded-[28px] border border-[#123c33]/10 bg-white/65 p-5">
-                <h4 className="text-xl font-semibold text-[#123c33]">Description</h4>
+              <div className="rounded-[28px] border border-[#0d1e36]/10 bg-white/65 p-5">
+                <h4 className="text-xl font-semibold text-[#0d1e36]">Description</h4>
                 <p className="muted-copy mt-3 leading-7">
                   {freelancer.description ||
                     'Add a sharper positioning statement to help clients trust your fit faster.'}
                 </p>
               </div>
 
-              <div className="rounded-[28px] border border-[#123c33]/10 bg-white/65 p-5">
-                <h4 className="text-xl font-semibold text-[#123c33]">Skills</h4>
+              <div className="rounded-[28px] border border-[#0d1e36]/10 bg-white/65 p-5">
+                <h4 className="text-xl font-semibold text-[#0d1e36]">Skills</h4>
                 <div className="mt-4 flex gap-2 flex-wrap">
                   {freelancer.skills.length > 0 ? (
                     freelancer.skills.map((skill) => (
@@ -168,43 +168,43 @@ const Freelancer = () => {
           </>
         ) : (
           <>
-            <h3 className="mb-5 text-xl font-semibold text-[#123c33] md:text-2xl">Update Profile</h3>
+            <h3 className="mb-5 text-xl font-semibold text-[#0d1e36] md:text-2xl">Update Profile</h3>
 
             <div className="mb-3">
-              <label className="mb-2 block font-sans text-sm font-medium text-[#123c33]">Skills</label>
+              <label className="mb-2 block font-sans text-sm font-medium text-[#0d1e36]">Skills</label>
               <input
                 value={editSkills}
                 onChange={(event) => setEditSkills(event.target.value)}
-                className="w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans"
+                className="w-full rounded-2xl border border-[#0d1e36]/10 bg-white/80 px-4 py-3 font-sans"
                 placeholder="React, Node, MongoDB"
               />
             </div>
 
             <div className="mb-3">
-              <label className="mb-2 block font-sans text-sm font-medium text-[#123c33]">
+              <label className="mb-2 block font-sans text-sm font-medium text-[#0d1e36]">
                 Experience
               </label>
               <input
                 value={aiExperience}
                 onChange={(event) => setAiExperience(event.target.value)}
-                className="w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans"
+                className="w-full rounded-2xl border border-[#0d1e36]/10 bg-white/80 px-4 py-3 font-sans"
                 placeholder="e.g. 3 years in React and Node.js"
               />
             </div>
 
             <div className="mb-4">
-              <label className="mb-2 block font-sans text-sm font-medium text-[#123c33]">
+              <label className="mb-2 block font-sans text-sm font-medium text-[#0d1e36]">
                 Description
               </label>
               <textarea
                 value={editDescription}
                 onChange={(event) => setEditDescription(event.target.value)}
-                className="w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans"
+                className="w-full rounded-2xl border border-[#0d1e36]/10 bg-white/80 px-4 py-3 font-sans"
                 rows="4"
               />
             </div>
 
-            <div className="mb-5 rounded-[24px] border border-[#123c33]/10 bg-white/68 p-4">
+            <div className="mb-5 rounded-[24px] border border-[#0d1e36]/10 bg-white/68 p-4">
               <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">AI Helper</p>
               <p className="muted-copy mt-2 text-sm leading-6">
                 Generate a sharper profile summary for {user?.username || 'your account'} using your
@@ -246,7 +246,7 @@ const DashboardCard = ({ title, value, onClick }) => (
     className="panel stat-card cursor-pointer rounded-[28px] p-6 transition hover:-translate-y-1"
   >
     <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">{title}</p>
-    <p className="mt-4 text-xl font-semibold text-[#123c33] md:text-2xl">{value}</p>
+    <p className="mt-4 text-xl font-semibold text-[#0d1e36] md:text-2xl">{value}</p>
     <p className="muted-copy mt-3 text-sm">Open workspace</p>
   </div>
 );

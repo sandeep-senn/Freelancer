@@ -47,7 +47,7 @@ const MyProjects = () => {
         <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
             <span className="eyebrow">My Projects</span>
-            <h2 className="mt-4 text-xl font-semibold text-[#123c33] md:text-2xl">Track active and completed delivery work.</h2>
+            <h2 className="mt-4 text-xl font-semibold text-[#0d1e36] md:text-2xl">Track active and completed delivery work.</h2>
             <p className="muted-copy mt-3 max-w-2xl">
               Keep a clear view of the projects already assigned to you and monitor where each one stands.
             </p>
@@ -55,7 +55,7 @@ const MyProjects = () => {
 
           <select
             onChange={(event) => handleFilterChange(event.target.value)}
-            className="rounded-full border border-[#123c33]/12 bg-white/80 px-4 py-3 font-sans text-sm text-[#123c33]"
+            className="rounded-full border border-[#0d1e36]/12 bg-white/80 px-4 py-3 font-sans text-sm text-[#0d1e36]"
           >
             <option value="">All Status</option>
             <option value="Assigned">In Progress</option>
@@ -74,15 +74,15 @@ const MyProjects = () => {
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">Assigned Project</p>
-                <h3 className="mt-2 text-xl font-semibold text-[#123c33]">{project.title}</h3>
+                <h3 className="mt-2 text-xl font-semibold text-[#0d1e36]">{project.title}</h3>
               </div>
               <span className={`status-pill ${String(project.status).toLowerCase()}`}>{project.status}</span>
             </div>
 
             <p className="muted-copy mt-4 leading-7">{project.description}</p>
 
-            <div className="mt-5 flex items-center justify-between border-t border-[#123c33]/10 pt-4 text-sm">
-              <span className="font-sans font-semibold text-[#123c33]">Budget: Rs {project.budget}</span>
+            <div className="mt-5 flex items-center justify-between border-t border-[#0d1e36]/10 pt-4 text-sm">
+              <span className="font-sans font-semibold text-[#0d1e36]">Budget: Rs {project.budget}</span>
               <span className="muted-copy">{new Date(project.postedDate).toLocaleDateString()}</span>
             </div>
           </div>
@@ -90,7 +90,7 @@ const MyProjects = () => {
 
         {displayProjects.length === 0 && (
           <div className="panel col-span-full rounded-[28px] p-10 text-center">
-            <p className="text-xl font-semibold text-[#123c33]">No projects found</p>
+            <p className="text-xl font-semibold text-[#0d1e36]">No projects found</p>
             <p className="muted-copy mt-3">Assigned work will appear here once a client approves your application.</p>
           </div>
         )}

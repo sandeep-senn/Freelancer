@@ -20,33 +20,33 @@ const Login = ({ setAuthType }) => {
   return (
     <form onSubmit={handleLogin} className="panel w-full max-w-lg rounded-[34px] p-8 md:p-10">
       <span className="eyebrow">Secure Access</span>
-      <h2 className="mt-5 text-xl font-semibold text-[#123c33] md:text-2xl">Welcome back</h2>
+      <h2 className="mt-5 text-xl font-semibold text-[#0d1e36] md:text-2xl">Welcome back</h2>
       <p className="muted-copy mt-3 text-base leading-7">
-        Sign in to continue managing projects, conversations, and approvals inside SB Works.
+        Sign in to continue managing projects, conversations, and approvals inside Syncora.
       </p>
 
       <div className="mt-8 space-y-5">
         <label className="block">
-          <span className="mb-2 block font-sans text-sm font-medium text-[#123c33]">Email address</span>
+          <span className="mb-2 block font-sans text-sm font-medium text-[#0d1e36]">Email address</span>
           <input
             type="email"
             placeholder="you@example.com"
             onChange={(event) => setEmail(event.target.value)}
             disabled={authLoading}
-            className="w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans text-[#123c33] outline-none transition focus:border-[#123c33]/30"
+            className="w-full rounded-2xl border border-[#0d1e36]/10 bg-white/80 px-4 py-3 font-sans text-[#0d1e36] outline-none transition focus:border-[#0d1e36]/30"
             required
           />
         </label>
 
         <label className="block">
-          <span className="mb-2 block font-sans text-sm font-medium text-[#123c33]">Password</span>
+          <span className="mb-2 block font-sans text-sm font-medium text-[#0d1e36]">Password</span>
           <div className="relative">
             <input
               type={showPassword ? 'text' : 'password'}
               placeholder="Enter password"
               onChange={(event) => setPassword(event.target.value)}
               disabled={authLoading}
-              className="w-full rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 pr-12 font-sans text-[#123c33] outline-none transition focus:border-[#123c33]/30"
+              className="w-full rounded-2xl border border-[#0d1e36]/10 bg-white/80 px-4 py-3 pr-12 font-sans text-[#0d1e36] outline-none transition focus:border-[#0d1e36]/30"
               required
             />
             <button
@@ -87,7 +87,7 @@ const Login = ({ setAuthType }) => {
           type="button"
           onClick={() => setAuthType('register')}
           disabled={authLoading}
-          className="font-semibold text-[#123c33] underline underline-offset-4"
+          className="font-semibold text-[#0d1e36] underline underline-offset-4"
         >
           Create one
         </button>

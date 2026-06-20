@@ -41,20 +41,22 @@ const Navbar = () => {
             onClick={() => navigate(`/${user.usertype}`)}
             className="flex items-center gap-3 text-left"
           >
-            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#123c33] text-sm font-semibold text-white shadow-lg shadow-emerald-950/20">
-              SB
-            </span>
+            <img
+              src="/logo.png"
+              alt="Syncora Logo"
+              className="h-11 w-11 object-contain rounded-xl"
+            />
             <span>
               <span className="block font-sans text-[0.7rem] uppercase tracking-[0.28em] text-[#7a867d]">
                 Workspace
               </span>
-              <span className="block text-lg font-semibold text-[#123c33]">
-                SB Works {user.usertype === 'admin' && '(Admin)'}
+              <span className="block text-lg font-semibold text-[#0d1e36]">
+                Syncora {user.usertype === 'admin' && '(Admin)'}
               </span>
             </span>
           </button>
 
-          <div className="hidden md:flex items-center gap-2 rounded-full border border-[#123c33]/8 bg-white/60 p-1.5">
+          <div className="hidden md:flex items-center gap-2 rounded-full border border-[#0d1e36]/8 bg-white/60 p-1.5">
             {links.map((item) => {
               const isActive = location.pathname === item.path;
               return (
@@ -64,7 +66,7 @@ const Navbar = () => {
                   className={`px-4 py-2 rounded-full text-sm font-medium transition ${
                     isActive
                       ? 'brand-button'
-                      : 'text-[#56645c] hover:bg-[#123c33]/6 hover:text-[#123c33]'
+                      : 'text-[#56645c] hover:bg-[#0d1e36]/6 hover:text-[#0d1e36]'
                   }`}
                 >
                   {item.label}
@@ -81,7 +83,7 @@ const Navbar = () => {
           </div>
 
           <button
-            className="rounded-2xl border border-[#123c33]/10 bg-white/70 p-2 text-[#123c33] md:hidden"
+            className="rounded-2xl border border-[#0d1e36]/10 bg-white/70 p-2 text-[#0d1e36] md:hidden"
             onClick={() => setOpen((prevOpen) => !prevOpen)}
           >
             {open ? <X size={22} /> : <Menu size={22} />}
@@ -89,7 +91,7 @@ const Navbar = () => {
         </div>
 
         {open && (
-          <div className="mt-4 flex flex-col gap-2 border-t border-[#123c33]/10 pt-4 md:hidden">
+          <div className="mt-4 flex flex-col gap-2 border-t border-[#0d1e36]/10 pt-4 md:hidden">
             {links.map((item) => {
               const isActive = location.pathname === item.path;
               return (
@@ -102,7 +104,7 @@ const Navbar = () => {
                   className={`w-full rounded-2xl px-4 py-3 text-left text-sm font-medium ${
                     isActive
                       ? 'brand-button'
-                      : 'bg-white/70 text-[#56645c] hover:bg-[#123c33]/6 hover:text-[#123c33]'
+                      : 'bg-white/70 text-[#56645c] hover:bg-[#0d1e36]/6 hover:text-[#0d1e36]'
                   }`}
                 >
                   {item.label}

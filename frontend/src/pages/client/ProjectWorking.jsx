@@ -132,7 +132,7 @@ const ProjectWorking = () => {
         <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
           <div>
             <span className="eyebrow">Client Project View</span>
-            <h2 className="mt-4 text-xl font-semibold text-[#123c33] md:text-2xl">{project.title}</h2>
+            <h2 className="mt-4 text-xl font-semibold text-[#0d1e36] md:text-2xl">{project.title}</h2>
             <p className="muted-copy mt-3 max-w-3xl leading-7">{project.description}</p>
           </div>
           <span className={`status-pill ${String(project.status).toLowerCase()}`}>{project.status}</span>
@@ -146,29 +146,29 @@ const ProjectWorking = () => {
           ))}
         </div>
 
-        <p className="mt-5 font-sans font-semibold text-[#123c33]">Budget: Rs {project.budget}</p>
+        <p className="mt-5 font-sans font-semibold text-[#0d1e36]">Budget: Rs {project.budget}</p>
       </div>
 
       {project.freelancerId && (
         <div className="panel rounded-[30px] p-6">
-          <h3 className="text-xl font-semibold text-[#123c33]">Submission Review</h3>
+          <h3 className="text-xl font-semibold text-[#0d1e36]">Submission Review</h3>
 
           {project.submission ? (
             <div className="mt-5 grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-              <div className="rounded-[26px] border border-[#123c33]/10 bg-white/68 p-5">
+              <div className="rounded-[26px] border border-[#0d1e36]/10 bg-white/68 p-5">
                 <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">Delivered Work</p>
                 <p className="muted-copy mt-4 leading-7">{project.submissionDescription}</p>
                 <a
                   href={project.projectLink}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-5 inline-flex font-sans font-semibold text-[#123c33] underline underline-offset-4"
+                  className="mt-5 inline-flex font-sans font-semibold text-[#0d1e36] underline underline-offset-4"
                 >
                   Open submission link
                 </a>
               </div>
 
-              <div className="rounded-[26px] border border-[#123c33]/10 bg-white/68 p-5">
+              <div className="rounded-[26px] border border-[#0d1e36]/10 bg-white/68 p-5">
                 {project.submissionAccepted ? (
                   <p className="text-xl font-semibold text-[#245437]">Project completed and approved.</p>
                 ) : (
@@ -201,7 +201,7 @@ const ProjectWorking = () => {
       )}
 
       <div className="panel rounded-[30px] p-6">
-        <h3 className="text-xl font-semibold text-[#123c33]">Project Chat</h3>
+        <h3 className="text-xl font-semibold text-[#0d1e36]">Project Chat</h3>
 
         {project.freelancerId ? (
           <>
@@ -209,15 +209,15 @@ const ProjectWorking = () => {
               Press Enter to send your message.
             </div>
 
-            <div className="mt-5 max-w-4xl space-y-3 rounded-[28px] border border-[#123c33]/10 bg-white/68 p-4">
+            <div className="mt-5 max-w-4xl space-y-3 rounded-[28px] border border-[#0d1e36]/10 bg-white/68 p-4">
               {chat.messages?.length ? (
                 chat.messages.map((msg) => (
                   <div
                     key={`${msg.timestamp}-${msg.senderId}`}
                     className={`w-fit max-w-lg rounded-[22px] px-4 py-3 font-sans text-sm leading-6 ${
                       String(msg.senderId) === user?._id
-                        ? 'ml-auto bg-[#123c33] text-white'
-                        : 'bg-[#f3ede2] text-[#123c33]'
+                        ? 'ml-auto bg-[#0d1e36] text-white'
+                        : 'bg-[#f3ede2] text-[#0d1e36]'
                     }`}
                   >
                     <p>{msg.text}</p>
@@ -233,7 +233,7 @@ const ProjectWorking = () => {
                 value={message}
                 onChange={(event) => setMessage(event.target.value)}
                 onKeyDown={handleMessageKeyDown}
-                className="flex-1 rounded-2xl border border-[#123c33]/10 bg-white/80 px-4 py-3 font-sans"
+                className="flex-1 rounded-2xl border border-[#0d1e36]/10 bg-white/80 px-4 py-3 font-sans"
                 placeholder="Write a clear message..."
               />
               <button

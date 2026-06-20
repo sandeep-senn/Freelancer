@@ -25,14 +25,16 @@ const Landing = () => {
     <div className="overflow-hidden px-4 pb-20 pt-5 md:px-8">
       <div className="panel mx-auto flex max-w-6xl items-center justify-between rounded-[30px] px-5 py-4 md:px-7">
         <div className="flex items-center gap-3">
-          <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#123c33] text-sm font-semibold text-white">
-            SB
-          </span>
+          <img
+            src="/logo.png"
+            alt="Syncora Logo"
+            className="h-12 w-12 object-contain rounded-xl"
+          />
           <div>
             <p className="font-sans text-[0.72rem] uppercase tracking-[0.28em] text-[#7f857e]">
               Talent Platform
             </p>
-            <h2 className="text-2xl font-semibold text-[#123c33]">SB Works</h2>
+            <h2 className="text-2xl font-semibold text-[#0d1e36]">Syncora</h2>
           </div>
         </div>
         <button
@@ -52,7 +54,7 @@ const Landing = () => {
             </h1>
 
             <p className="muted-copy mt-6 max-w-2xl text-lg leading-8">
-              SB Works turns noisy freelance work into a structured operating system with better
+              Syncora turns noisy freelance work into a structured operating system with better
               briefs, cleaner communication, and approval flows that feel reliable.
             </p>
 
@@ -117,7 +119,7 @@ const Landing = () => {
               </p>
               <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3">
                 {logos.map((logo) => (
-                  <div key={logo} className="rounded-2xl border border-[#123c33]/8 bg-white/70 p-4">
+                  <div key={logo} className="rounded-2xl border border-[#0d1e36]/8 bg-white/70 p-4">
                     <img src={logo} alt="company logo" className="mx-auto h-7 grayscale" />
                   </div>
                 ))}
@@ -146,7 +148,7 @@ const Landing = () => {
         <div className="grid gap-8 md:grid-cols-[0.7fr_1.3fr]">
           <div>
             <span className="eyebrow">How It Works</span>
-            <h2 className="mt-5 text-xl font-semibold text-[#123c33] md:text-2xl">
+            <h2 className="mt-5 text-xl font-semibold text-[#0d1e36] md:text-2xl">
               A cleaner operating rhythm for both sides.
             </h2>
           </div>
@@ -176,33 +178,33 @@ const Landing = () => {
 
 const Card = ({ title, text }) => (
   <div className="panel rounded-[30px] p-8">
-    <div className="mb-5 h-12 w-12 rounded-2xl bg-[#f6e7d2]" />
-    <h3 className="text-xl font-semibold text-[#123c33]">{title}</h3>
+    <div className="mb-5 h-12 w-12 rounded-2xl bg-[#fef6e0]" />
+    <h3 className="text-xl font-semibold text-[#0d1e36]">{title}</h3>
     <p className="muted-copy mt-3 leading-7">{text}</p>
   </div>
 );
 
 const Step = ({ step, title, desc }) => (
-  <div className="rounded-[28px] border border-[#123c33]/10 bg-white/60 p-5">
-    <p className="font-sans text-xs font-semibold uppercase tracking-[0.22em] text-[#ba7c32]">
+  <div className="rounded-[28px] border border-[#0d1e36]/10 bg-white/60 p-5">
+    <p className="font-sans text-xs font-semibold uppercase tracking-[0.22em] text-[#c5a059]">
       {step}
     </p>
-    <h4 className="mt-3 text-xl font-semibold text-[#123c33]">{title}</h4>
+    <h4 className="mt-3 text-xl font-semibold text-[#0d1e36]">{title}</h4>
     <p className="muted-copy mt-3 leading-7">{desc}</p>
   </div>
 );
 
 const Metric = ({ title, value, text }) => (
-  <div className="rounded-[24px] border border-[#123c33]/10 bg-white/68 p-5">
+  <div className="rounded-[24px] border border-[#0d1e36]/10 bg-white/68 p-5">
     <p className="font-sans text-sm text-[#6d776f]">{title}</p>
-    <p className="mt-2 text-xl font-semibold text-[#123c33] md:text-2xl">{value}</p>
+    <p className="mt-2 text-xl font-semibold text-[#0d1e36] md:text-2xl">{value}</p>
     <p className="muted-copy mt-2 text-sm leading-6">{text}</p>
   </div>
 );
 
 const Insight = ({ title, text }) => (
-  <div className="rounded-[24px] border border-[#123c33]/10 bg-white/65 p-4">
-    <h3 className="text-xl font-semibold text-[#123c33]">{title}</h3>
+  <div className="rounded-[24px] border border-[#0d1e36]/10 bg-white/65 p-4">
+    <h3 className="text-xl font-semibold text-[#0d1e36]">{title}</h3>
     <p className="muted-copy mt-2 text-sm leading-6">{text}</p>
   </div>
 );

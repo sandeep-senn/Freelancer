@@ -53,7 +53,7 @@ const Client = () => {
         <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
             <span className="eyebrow">Client Dashboard</span>
-            <h2 className="mt-4 text-xl font-semibold text-[#123c33] md:text-2xl">
+            <h2 className="mt-4 text-xl font-semibold text-[#0d1e36] md:text-2xl">
               Manage active client work with confidence.
             </h2>
             <p className="muted-copy mt-3 max-w-2xl">
@@ -64,7 +64,7 @@ const Client = () => {
 
           <select
             onChange={(event) => handleFilterChange(event.target.value)}
-            className="rounded-full border border-[#123c33]/12 bg-white/80 px-4 py-3 font-sans text-sm text-[#123c33]"
+            className="rounded-full border border-[#0d1e36]/12 bg-white/80 px-4 py-3 font-sans text-sm text-[#0d1e36]"
           >
             <option value="">All Status</option>
             <option value="Pending">Pending</option>
@@ -86,7 +86,7 @@ const Client = () => {
                 <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8a7661]">
                   Project
                 </p>
-                <h3 className="mt-2 text-xl font-semibold text-[#123c33]">{project.title}</h3>
+                <h3 className="mt-2 text-xl font-semibold text-[#0d1e36]">{project.title}</h3>
               </div>
               <span className={`status-pill ${String(project.status).toLowerCase()}`}>
                 {project.status}
@@ -97,8 +97,8 @@ const Client = () => {
 
             <p className="muted-copy mb-5 mt-4 leading-7">{project.description}</p>
 
-            <div className="flex items-center justify-between border-t border-[#123c33]/10 pt-4 text-sm">
-              <span className="font-sans font-semibold text-[#123c33]">Budget: Rs {project.budget}</span>
+            <div className="flex items-center justify-between border-t border-[#0d1e36]/10 pt-4 text-sm">
+              <span className="font-sans font-semibold text-[#0d1e36]">Budget: Rs {project.budget}</span>
               <span className="font-sans text-[#6c776f]">Open project workspace</span>
             </div>
           </div>
@@ -106,7 +106,7 @@ const Client = () => {
 
         {displayProjects.length === 0 && (
           <div className="panel col-span-full rounded-[28px] p-10 text-center">
-            <p className="text-xl font-semibold text-[#123c33]">No projects found</p>
+            <p className="text-xl font-semibold text-[#0d1e36]">No projects found</p>
             <p className="muted-copy mt-3">Create a new project to start building your pipeline.</p>
           </div>
         )}

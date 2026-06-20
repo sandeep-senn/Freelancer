@@ -82,7 +82,7 @@ const AllUsers = () => {
     <div className="mx-auto max-w-6xl px-4 py-6">
       <div className="panel rounded-[32px] p-6 md:p-8">
         <span className="eyebrow">User Directory</span>
-        <h2 className="mt-4 text-xl font-semibold text-[#123c33] md:text-2xl">
+        <h2 className="mt-4 text-xl font-semibold text-[#0d1e36] md:text-2xl">
           Review platform members with clarity.
         </h2>
       </div>
@@ -90,7 +90,7 @@ const AllUsers = () => {
       <div className="panel mt-6 overflow-x-auto rounded-[30px] p-3">
         <table className="w-full min-w-[640px] text-left font-sans text-sm">
           <thead>
-            <tr className="border-b border-[#123c33]/10 text-[#6a746d]">
+            <tr className="border-b border-[#0d1e36]/10 text-[#6a746d]">
               <th className="px-4 py-4 font-semibold">Username</th>
               <th className="px-4 py-4 font-semibold">Email</th>
               <th className="px-4 py-4 font-semibold">Role</th>
@@ -99,15 +99,15 @@ const AllUsers = () => {
           </thead>
           <tbody>
             {users.map((user) => (
-              <tr key={user._id} className="border-b border-[#123c33]/8 last:border-b-0">
-                <td className="px-4 py-4 font-medium text-[#123c33]">{user.username}</td>
+              <tr key={user._id} className="border-b border-[#0d1e36]/8 last:border-b-0">
+                <td className="px-4 py-4 font-medium text-[#0d1e36]">{user.username}</td>
                 <td className="px-4 py-4 text-[#516056]">{user.email}</td>
                 <td className="px-4 py-4">
                   <select
                     value={user.usertype}
                     onChange={(event) => handleRoleChange(user._id, event.target.value)}
                     disabled={busyUserId === user._id || currentUser?._id === user._id}
-                    className="rounded-full border border-[#123c33]/10 bg-white px-3 py-2 text-sm text-[#123c33] outline-none disabled:cursor-not-allowed disabled:opacity-70"
+                    className="rounded-full border border-[#0d1e36]/10 bg-white px-3 py-2 text-sm text-[#0d1e36] outline-none disabled:cursor-not-allowed disabled:opacity-70"
                   >
                     {ROLE_OPTIONS.map((role) => (
                       <option key={role.value} value={role.value}>

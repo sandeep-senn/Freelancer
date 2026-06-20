@@ -46,7 +46,7 @@ const Admin = () => {
     <div className="mx-auto max-w-6xl px-4 py-6">
       <div className="panel rounded-[32px] p-6 md:p-8">
         <span className="eyebrow">Admin Overview</span>
-        <h2 className="mt-4 text-xl font-semibold text-[#123c33] md:text-2xl">
+        <h2 className="mt-4 text-xl font-semibold text-[#0d1e36] md:text-2xl">
           Monitor platform health at a glance.
         </h2>
         <p className="muted-copy mt-3 max-w-2xl">
@@ -83,7 +83,7 @@ const StatCard = ({ title, value, onClick }) => (
     className="panel stat-card cursor-pointer rounded-[28px] p-6 transition hover:-translate-y-1"
   >
     <p className="font-sans text-xs uppercase tracking-[0.22em] text-[#8b775f]">{title}</p>
-    <p className="mt-4 text-xl font-semibold text-[#123c33] md:text-2xl">{value}</p>
+    <p className="mt-4 text-xl font-semibold text-[#0d1e36] md:text-2xl">{value}</p>
     <p className="muted-copy mt-3 text-sm">Review details</p>
   </div>
 );
